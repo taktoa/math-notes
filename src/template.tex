@@ -261,6 +261,8 @@ $endfor$
   \fixTABwidth{T}%
 }
 
+\newcommand{\rmand}{\ensuremath{\mathrel{\mathrm{and}}}}
+
 \newcommand{\proj}[2]{{\mathrm{proj}_{#1}({#2})}}
 
 \newcommand{\aside}[1]{\hfill{} ({#1})}
@@ -284,8 +286,9 @@ $endfor$
 
 %\newenvironment{oldverb}[0]{\begin{verbatim}}{\end{verbatim}}
 
-\newenvironment{itemlist}[0]{%\tightlist
-                             \begin{easylist}[itemize]}
+\newenvironment{itemlist}[0]{\begin{easylist}[itemize]}
+                            {\end{easylist}}
+\newenvironment{enumlist}[0]{\begin{easylist}[enumerate]}
                             {\end{easylist}}
 
 \newcommand{\warnverbatim}[0]{%

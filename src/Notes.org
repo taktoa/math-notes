@@ -2,10 +2,78 @@
 #+AUTHOR: Remy Goldschmidt
 
 * Abstract Algebra
+** Ideals
 #+BEGIN_SRC latex
-\begin{itemlist}
-@
-\end{itemlist}
+\begin{enumlist}
+@ An \textsf{ideal} $I$ of a ring $R$ should be thought of as a particular kind
+  of subset of a ring.
+@ Specifically, for some ring $(R, +, {}\cdot{})$, a set $I$ is a
+  \textsf{two-sided ideal} of $R$ if it satisfies two conditions:
+@@ \textbf{Subgroup}: $(I, +)$ is a subgroup of $(R, +)$
+@@ \textbf{Absorption}: For any $r \in R$ and any $i \in I$, $r \cdot i$ and
+   $i \cdot r$ are both elements of $I$.
+@ We can generalize this to the notion of a \textsf{left ideal} and a
+  \textsf{right ideal}. A left ideal only requires $r \cdot i \in I$, while a
+  right ideal only requires $i \cdot r \in I$.
+@ The canonical example of an ideal is that of the even integers $2\mbb{Z}$,
+  which are an ideal in $\mbb{Z}$.
+@@ To see why this is, note that addition is closed over $2\mbb{Z}$, and that
+   the additive inverse of an even integer is also even. Thus, $(2\mbb{Z}, +)$
+   is a subgroup of $(\mbb{Z}, +)$. The other factor is that multiplying any
+   number by an even number gives you another even number, so the absorption
+   condition is satisfied.
+@ More generally, for any integer $n$ in $\mbb{Z}$,
+  $n\mbb{Z}$ is an ideal in $\mbb{Z}$.
+@ So you could say that ideals generalize the idea of the set of all values
+  divisible by a given value.
+@ Other examples:
+@@ For any ring $R$, $R$ is trivially an ideal of $R$.
+   This is called the \textsf{unit ideal} of $R$.
+@@ For any ring $R$, $\{0_R\}$ is an ideal of $R$.
+   This is called the \textsf{zero ideal} of $R$.
+@@ Denote the ring of all univariate polynomials with real coefficients
+   by $\mbb{R}[x]$. Then the set of all such polynomials divisible by $x^2 + 1$
+   is an ideal in $\mbb{R}[x]$.
+@ Some types of ideals:
+@@ A \textsf{proper ideal}  is one that is not the unit ideal.
+   A \textsf{nonzero ideal} is one that is not the zero ideal.
+@@ The \textsf{maximal ideal} of a ring is the largest possible proper ideal
+   for that ring.
+@@ The \textsf{minimal ideal} of a ring is the smallest possible nonzero ideal
+   for that ring.
+@@ A \textsf{prime ideal} is an ideal $I$ such that for any $(a, b) \in R^2$,
+   $a \cdot b \in I$ implies $a \in I$ or $b \in I$.
+@@ A \textsf{radical} or \textsf{semiprime ideal} is an ideal $I$ such that
+   for any $a \in R$, $a^n \in I$ implies $a \in I$.
+@@ A \textsf{principal ideal} is an ideal with one generator.
+@ The \textsf{quotient of a ring $R$ by an ideal $I$} is
+  $(R / \{(a, b) \in R^2 \mid (a - b) \in I\}, +, {}\cdot{})$.
+@ Products and sums
+@@ Any two ideals $I$ and $J$ have a sum, defined as
+   $I + J = \{a + b \mid a \in I \land b \in J\}$.
+@@ Any two ideals $I$ and $J$ have a product, defined as
+   \begin{equation*}
+     I \times J = \{\psi(0) + \cdots + \psi(n)
+                    \mid   n \in \mbb{N}
+                    \rmand \phi \in \mbb{N} \to I \times J
+                    \rmand \psi = \pi \comp \phi\}
+   \end{equation*}
+   where $\pi : R^2 \to R$ is defined as $\pi(a, b) = a \cdot b$
+@@ Note that $(I \cup J) \subseteq (I + J)$
+   and $(I \times J) \subseteq (I \cap J)$.
+@ The set of ideals of a ring $R$ is denoted $\mbb{I}_R$.
+@ For convenience, we will define a function
+  $\Phi : (A^2 \to A) \times A \to \mbb{P}(A) \to A$ by:
+  \begin{equation*}
+    {\Phi(f, e)(\o) = e}
+    ~ ~ \rmand ~ ~
+    {\Phi(f, e)(\{x\} \cup X) = f(x, \Phi(f, e)(X))}
+  \end{equation*}
+  where $x \in A$ and $X \subseteq \mbb{P}(A)$.
+  This is known as the \textsf{fold} of a binary operator $f$ with a unit $e$.
+@ $(\mbb{I}_R, \subseteq, \Phi(+, \{0_R\}), \Phi(\cap, R), \{0_R\}, R)$
+  is a complete modular lattice.
+\end{enumlist}
 #+END_SRC
 
 * Resources
