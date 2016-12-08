@@ -1,0 +1,517 @@
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{report}
+$if(fontfamily)$
+\usepackage{$fontfamily$}
+$else$
+\usepackage{lmodern}
+$endif$
+$if(linestretch)$
+\usepackage{setspace}
+\setstretch{$linestretch$}
+$endif$
+\usepackage{amssymb}
+\usepackage[fleqn]{amsmath}
+\usepackage{ifxetex}
+\usepackage{ifluatex}
+\usepackage{etoolbox}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+$if(euro)$
+  \usepackage{eurosym}
+$endif$
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra}
+    \usepackage{xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+$if(mainfont)$
+    \setmainfont{$mainfont$}
+$endif$
+$if(sansfont)$
+    \setsansfont{$sansfont$}
+$endif$
+$if(monofont)$
+    \setmonofont[Mapping=tex-ansi]{$monofont$}
+$endif$
+$if(mathfont)$
+    \setmathfont(Digits,Latin,Greek){$mathfont$}
+$endif$
+$if(CJKmainfont)$
+    \usepackage{xeCJK}
+    \setCJKmainfont[$CJKoptions$]{$CJKmainfont$}
+$endif$
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+$if(geometry)$
+\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+$endif$
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\usepackage[usenames,dvipsnames]{color}
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={$author-meta$},
+            pdftitle={$title-meta$},
+            colorlinks=true,
+            citecolor=$if(citecolor)$$citecolor$$else$blue$endif$,
+            urlcolor=$if(urlcolor)$$urlcolor$$else$blue$endif$,
+            linkcolor=$if(linkcolor)$$linkcolor$$else$magenta$endif$,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+$if(lang)$
+\ifxetex
+  \usepackage{polyglossia}
+  \setmainlanguage{$mainlang$}
+  \setotherlanguages{$for(otherlang)$$otherlang$$sep$,$endfor$}
+\else
+  \usepackage[shorthands=off,$lang$]{babel}
+\fi
+$endif$
+$if(natbib)$
+\usepackage{natbib}
+\bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
+$endif$
+$if(biblatex)$
+\usepackage{biblatex}
+$for(bibliography)$
+\addbibresource{$bibliography$}
+$endfor$
+$endif$
+$if(listings)$
+\usepackage{listings}
+$endif$
+$if(lhs)$
+\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+$endif$
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+$if(verbatim-in-note)$
+\usepackage{fancyvrb}
+\VerbatimFootnotes
+$endif$
+$if(tables)$
+\usepackage{longtable}
+\usepackage{booktabs}
+$endif$
+$if(graphics)$
+\usepackage{graphicx}
+\usepackage{grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+$endif$
+$if(links-as-notes)$
+% Make links footnotes instead of hotlinks:
+\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
+$endif$
+$if(strikeout)$
+\usepackage[normalem]{ulem}
+% avoid problems with \sout in headers with hyperref:
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+$endif$
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+
+% \providecommand{\tightlist}{
+%   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\tightlist}{\setlength{\itemsep}{3pt}\setlength{\parskip}{0pt}}
+
+$if(numbersections)$
+\setcounter{secnumdepth}{5}
+$else$
+\setcounter{secnumdepth}{0}
+$endif$
+$if(verbatim-in-note)$
+\VerbatimFootnotes % allows verbatim text in footnotes
+$endif$
+
+$if(title)$
+\title{$title$$if(subtitle)$\\\vspace{0.5em}{\large $subtitle$}$endif$}
+$endif$
+$if(author)$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+$endif$
+\date{$date$}
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+% Redefines (sub)paragraphs to behave more like sections
+%\ifx\paragraph\undefined\else
+%\let\oldparagraph\paragraph
+%\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+%\fi
+%\ifx\subparagraph\undefined\else
+%\let\oldsubparagraph\subparagraph
+%\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+%\fi
+
+\usepackage{url}
+\usepackage{indentfirst}
+\usepackage[compact]{titlesec}
+\usepackage{fullpage}
+\usepackage{setspace}
+\usepackage{tabstackengine}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{caption}
+%\usepackage{minted}
+\usepackage{listings}
+\usepackage{lscape}
+\usepackage{newfloat}
+\usepackage{subcaption}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage{mdframed}
+\usepackage{xcolor}
+\usepackage[super]{nth}
+\usepackage{environ}
+\usepackage{relsize}
+\usepackage[at]{easylist}
+\usepackage{cancel}
+\usepackage{tikz-cd}
+\usepackage{bussproofs}
+\singlespacing{}
+
+\newcommand{\catset}[0]{\mathbf{Set}}
+\newcommand{\catmon}[0]{\mathbf{Mon}}
+\newcommand{\catgrp}[0]{\mathbf{Grp}}
+\newcommand{\catab}[0]{\mathbf{Ab}}
+\newcommand{\cat}[1]{\mathbf{#1}}
+
+\newcommand{\modulo}[0]{\mathbin{\mathsmaller{\%}}}
+
+\newcommand{\InfPar}[1]{\textcolor{black!40!blue!100}{#1}}
+\newcommand{\InfRes}[1]{\textcolor{black!40!red!100}{#1}}
+%\newcommand{\unknown}[1]{\textcolor{blue!80}{#1}}
+%\newcommand{\red}[1]{\textcolor{red}{#1}}
+%\newcommand{\variableA}[1]{\textcolor{black!60!red!40}{#1}}
+%\newcommand{\variableB}[1]{\textcolor{black!60!green!40}{#1}}
+%\newcommand{\variableC}[1]{\textcolor{black!60!blue!40}{#1}}
+%\newcommand{\variableD}[1]{\textcolor{black!60!cyan!40}{#1}}
+%\newcommand{\needseval}[1]{\textcolor{green!40!black}{#1}}
+%\newcommand{\fixfactor}[1]{\textcolor{orange}{#1}}
+%\newcommand{\equals}[0]{\mathbin{\color{red}=}}
+
+\newcommand{\field}[1]{\mathbf{#1}}
+\newcommand{\sgrad}[1]{\nabla{} {#1}}
+\newcommand{\scurl}[1]{\nabla{} \times{} {#1}}
+\newcommand{\sdiv}[1]{\nabla{} \cdot{} {#1}}
+
+\newcommand{\defn}[1]{\textsf{#1}}
+
+\usepackage{todonotes}
+\newlength{\fixmewidth}
+\setlength{\fixmewidth}{0.7\textwidth}
+\newcommand{\fixme}[1]{\begin{minipage}[c]{\fixmewidth}%
+                       \todo[color=green!40,inline]{\textsc{fixme:} #1}%
+                       \end{minipage}}
+\newcommand{\smallfixme}[0]{\begin{minipage}[c]{3.5em}%
+                            \todo[color=green!40,inline]{\textsc{fixme}}%
+                            \end{minipage}}
+
+\titleformat{\chapter}[display]{\normalfont\bfseries}
+                               {}
+                               {-10pt}{\Huge}
+%\titleformat{\chapter}[display]{\normalfont\huge\bfseries}
+%                               {\chaptertitlename\ \thechapter}
+%                               {20pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{-50pt}{30pt}
+
+\DeclareRobustCommand{\zvec}[1]{%
+  \mathrlap{\vec{\mkern-2mu\phantom{#1}}}#1}
+%\newcommand{\ihat}{\hat{\imath}}
+%\newcommand{\jhat}{\hat{\jmath}}
+%\newcommand{\khat}{\hat{k}}
+\newcommand{\angv}{\omega}
+\newcommand{\ihat}{\mathbf{i}}
+\newcommand{\jhat}{\mathbf{j}}
+\newcommand{\khat}{\mathbf{k}}
+\newcommand{\unit}[1]{\ensuremath{\mathrm{#1}}}
+\newcommand{\degree}{\ensuremath{^\circ}}
+\newcommand{\sind}[1]{\sin{#1 \degree}}
+\newcommand{\cosd}[1]{\cos{#1 \degree}}
+\newcommand{\bmatSettings}{%
+  \setstackgap{L}{1.1\baselineskip}%
+  \fixTABwidth{T}%
+}
+
+\newcommand{\proj}[2]{{\mathrm{proj}_{#1}({#2})}}
+
+\newcommand{\aside}[1]{\hfill{} ({#1})}
+\newcommand{\wrapp}[1]{\left({} {#1} \right){}}
+
+\usepackage{scalerel,stackengine}
+\stackMath
+\newcommand\reallywidehat[1]{%
+\savestack{\tmpbox}{\stretchto{%
+  \scaleto{%
+    \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
+    {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
+  }{\textheight}%
+}{0.5ex}}%
+\stackon[1pt]{#1}{\tmpbox}%
+}
+\parskip 1ex
+
+\newcommand{\rwh}[1]{\reallywidehat{#1}}
+\newcommand{\wh}[1]{\widehat{#1}}
+
+%\newenvironment{oldverb}[0]{\begin{verbatim}}{\end{verbatim}}
+
+\newenvironment{itemlist}[0]{%\tightlist
+                             \begin{easylist}[itemize]}
+                            {\end{easylist}}
+
+\newcommand{\warnverbatim}[0]{%
+  It looks like you're using the verbatim environment. \\%
+  This will not do what you think it should.           \\%
+  Please use the oldverb environment instead.%
+}
+
+\renewenvironment{verbatim}[0]
+                 {\GenericWarning{}{\warnverbatim{}}\begin{orglatex}}
+                 {\end{orglatex}}
+
+\EnableBpAbbreviations{}
+
+\newcommand{\RLSC}[1]{\RightLabel{\textsc{#1}}}
+\newcommand{\from}[0]{\leftarrow}
+
+\newcommand{\mbb}[1]{\mathbb{#1}}
+\newcommand{\msf}[1]{\mathsf{#1}}
+\newcommand{\mtt}[1]{\mathtt{#1}}
+\newcommand{\mcl}[1]{\mathcal{#1}}
+% \newcommand{\iff}[0]{\Leftrightarrow}
+
+\newcommand{\CTLnot}      [1]{\ensuremath{\lnot{} {#1}}}
+\newcommand{\CTLor}       [2]{\ensuremath{{#1} \lor{} {#2}}}
+\newcommand{\CTLand}      [2]{\ensuremath{{#1} \land{} {#2}}}
+\newcommand{\CTLimp}      [2]{\ensuremath{{#1} \Rightarrow{} {#2}}}
+\newcommand{\CTLiff}      [2]{\ensuremath{{#1} \Leftrightarrow{} {#2}}}
+\newcommand{\CTLanext}    [1]{\ensuremath{\mathsf{AX}\,{#1}}}
+\newcommand{\CTLenext}    [1]{\ensuremath{\mathsf{EX}\,{#1}}}
+\newcommand{\CTLauntil}   [2]{\ensuremath{\mathsf{A}\langle{#1}\,\mathsf{U}\,{#2}\rangle}}
+\newcommand{\CTLeuntil}   [2]{\ensuremath{\mathsf{E}\langle{#1}\,\mathsf{U}\,{#2}\rangle}}
+\newcommand{\CTLafinally} [1]{\ensuremath{\mathsf{AF}\,{#1}}}
+\newcommand{\CTLefinally} [1]{\ensuremath{\mathsf{EF}\,{#1}}}
+\newcommand{\CTLaglobally}[1]{\ensuremath{\mathsf{AG}\,{#1}}}
+\newcommand{\CTLeglobally}[1]{\ensuremath{\mathsf{EG}\,{#1}}}
+
+\newcommand{\reals}[0]{\ensuremath{\mathbb{R}}}
+\newcommand{\complex}[0]{\ensuremath{\mathbb{C}}}
+\newcommand{\naturals}[0]{\ensuremath{\mathbb{N}}}
+
+\newcommand{\refl}[0]{\ensuremath{\mathrm{refl.}}}
+
+\newcommand{\join}[0]{\ensuremath{\mathbin{\sqcup}}}
+\newcommand{\meet}[0]{\ensuremath{\mathbin{\sqcap}}}
+\newcommand{\poset}[0]{\ensuremath{\mathrel{\sqsubseteq}}}
+
+\newcommand{\hoare}[3]{\ensuremath{\{#1\}\,\,\text{\texttt{#2}}\,\,\{#3\}}}
+
+\newcommand{\hoareKW}[1]{\text{\textcolor{black!100!yellow!40}{\texttt{#1}}}}
+\newcommand{\HV}[1]{\mathtt{#1}}
+\newcommand{\HAssg}[2]{{#1} \coloneqq {#2}}
+\newcommand{\HIfElse}[3]{\hoareKW{if}({#1})\:\langle
+                           {#2}
+                         \rangle\:\hoareKW{else}\:\langle
+                           {#3}
+                         \rangle}
+\newcommand{\HWhile}[2]{\hoareKW{while}({#1})\:\langle
+                          {#2}
+                        \rangle}
+\newcommand{\hoarePre}[1]{\{{#1}\}}
+\newcommand{\hoareCode}[1]{{#1}}
+\newcommand{\hoarePost}[1]{\{{#1}\}}
+\newcommand{\hoareBetter}[3]{%
+  \ensuremath{\hoarePre{#1}\,\,\hoareCode{#2}\,\,\hoarePost{#3}}}
+
+\renewcommand{\wedge}[1]{\ensuremath{\widehat{#1}}}
+\newcommand{\iwedge}[1]{\ensuremath{\mathrm{wedge}{#1}}}
+
+\newcommand{\eye}[0]{\ensuremath{\mathbf{I}}}
+
+\newcommand{\dee}[0]{\mathrm{d}}
+\newcommand{\refn}[1]{{#1}_{\mathrm{ref}}}
+\newcommand{\spr}[3]{{\left(\dfrac{#1}{#2}\right)}^{#3}}
+\newcommand{\reynold}[0]{\mathrm{Re}}
+
+\newcommand{\water}[0]{\textsc{h}_2 \textsc{o}}
+\newcommand{\air}[0]{\mathrm{air}}
+
+\newcommand{\mkpartial}[1]{\partial{} {#1}}
+
+\newcommand{\ptl}[2]{\frac{\mkpartial{#1}}{\mkpartial{#2}}}
+\newcommand{\dptl}[2]{\dfrac{\mkpartial{#1}}{\mkpartial{#2}}}
+
+\newcommand{\mkder}[1]{\mathrm{d} {#1}}
+\newcommand{\der}[2]{\frac{\mkder{#1}}{\mkder{#2}}}
+\newcommand{\dder}[2]{\dfrac{\mkder{#1}}{\mkder{#2}}}
+\newcommand{\ddder}[2]{\dfrac{\dee{}^2 {#1}}{\dee{} {#2}^2}}
+\newcommand{\tder}[0]{\der{}{t}}
+\newcommand{\tdder}[0]{\dder{}{t}}
+
+\newcommand{\txt}[1]{\ensuremath{\mathrm{#1}}}
+
+\newcommand{\add}[3]{\sum_{#1}^{#2} {#3}}
+\newcommand{\dadd}[3]{\mathlarger{\add{#1}{#2}{#3}}}
+
+\newcommand{\integral}[4]{\int_{#1}^{#2} {#3} \, \dee{} {#4}}
+\newcommand{\dintegral}[4]{\mathlarger{\integral{#1}{#2}{#3}{#4}}}
+\newcommand{\tint}[3]{\integral{}{}{}{t}}
+\newcommand{\tdint}[3]{\dintegral{}{}{}{t}}
+
+\newcommand{\minfill}[0]{\hphantom{-}}
+\newcommand{\mf}[0]{\hphantom{-}}
+\newcommand{\bmf}[0]{\hphantom{{} - {}}}
+\newcommand{\msm}[1]{\mathsmaller{#1}}
+
+\newcommand{\meq}{\overset{?}{=}}
+
+\newcommand{\mslash}[2]{{#1} / {#2}}
+
+\newcommand{\milli}[0]{\mathrm{m}}
+\newcommand{\deci}[0]{\mathrm{d}}
+\newcommand{\kilo}[0]{\mathrm{k}}
+\newcommand{\mega}[0]{\mathrm{M}}
+\newcommand{\giga}[0]{\mathrm{G}}
+\newcommand{\tera}[0]{\mathrm{T}}
+
+\newcommand{\gram}[0]{\mathrm{g}}
+\newcommand{\pound}[0]{\mathrm{lb}}
+\newcommand{\slug}[0]{\mathrm{slug}}
+
+\newcommand{\foot}[0]{\mathrm{ft}}
+\newcommand{\mile}[0]{\mathrm{mi}}
+\newcommand{\meter}[0]{\mathrm{m}}
+
+\newcommand{\second}[0]{\mathrm{s}}
+\newcommand{\minute}[0]{\mathrm{min}}
+\newcommand{\hour}[0]{\mathrm{hr}}
+
+\newcommand{\fahrenheit}[0]{\degree \mathrm{F}}
+\newcommand{\celsius}[0]{\degree \mathrm{C}}
+\newcommand{\rankine}[0]{\degree \mathrm{R}}
+\newcommand{\kelvin}[0]{\mathrm{K}}
+
+\newcommand{\pascal}[0]{\mathrm{Pa}}
+\newcommand{\joule}[0]{\mathrm{J}}
+\newcommand{\kgmc}[0]{\mslash{\kilo{} \gram{}}{\meter{}^3}}
+
+\newcommand{\bmat}[1]{\bmatSettings{} \bracketMatrixstack{#1}}
+\newcommand{\bmatn}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\pmatn}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\range}{range}
+\newcommand{\minv}[1]{\mathrm{inv} ({#1})}
+\newcommand{\tens}[0]{\otimes}
+\newcommand{\comp}[0]{\circ}
+\newcommand{\abkt}[1]{{\langle{} \mkern1mu {#1} \mkern1mu \rangle{}}}
+
+\newcommand{\enbox}[1]{\boxed{#1}}
+\newenvironment{orglatex}[0]{}{}
+
+\newcommand{\frk}[1]{\mathfrak{#1}}
+
+\newcommand{\frka}[0]{\frk{a}}
+\newcommand{\frkb}[0]{\frk{b}}
+\newcommand{\frkc}[0]{\frk{c}}
+\newcommand{\frkd}[0]{\frk{d}}
+\newcommand{\frke}[0]{\frk{e}}
+\newcommand{\frkf}[0]{\frk{f}}
+\newcommand{\frkg}[0]{\frk{g}}
+\newcommand{\frkh}[0]{\frk{h}}
+\newcommand{\frki}[0]{\frk{i}}
+\newcommand{\frkj}[0]{\frk{j}}
+\newcommand{\frkk}[0]{\frk{k}}
+\newcommand{\frkl}[0]{\frk{l}}
+\newcommand{\frkm}[0]{\frk{m}}
+\newcommand{\frkn}[0]{\frk{n}}
+\newcommand{\frko}[0]{\frk{o}}
+\newcommand{\frkp}[0]{\frk{p}}
+\newcommand{\frkq}[0]{\frk{q}}
+\newcommand{\frkr}[0]{\frk{r}}
+\newcommand{\frks}[0]{\frk{s}}
+\newcommand{\frkt}[0]{\frk{t}}
+\newcommand{\frku}[0]{\frk{u}}
+\newcommand{\frkv}[0]{\frk{v}}
+\newcommand{\frkw}[0]{\frk{w}}
+\newcommand{\frkx}[0]{\frk{x}}
+\newcommand{\frky}[0]{\frk{y}}
+\newcommand{\frkz}[0]{\frk{z}}
+
+\newcommand{\frkA}[0]{\frk{A}}
+\newcommand{\frkB}[0]{\frk{B}}
+\newcommand{\frkC}[0]{\frk{C}}
+\newcommand{\frkD}[0]{\frk{D}}
+\newcommand{\frkE}[0]{\frk{E}}
+\newcommand{\frkF}[0]{\frk{F}}
+\newcommand{\frkG}[0]{\frk{G}}
+\newcommand{\frkH}[0]{\frk{H}}
+\newcommand{\frkI}[0]{\frk{I}}
+\newcommand{\frkJ}[0]{\frk{J}}
+\newcommand{\frkK}[0]{\frk{K}}
+\newcommand{\frkL}[0]{\frk{L}}
+\newcommand{\frkM}[0]{\frk{M}}
+\newcommand{\frkN}[0]{\frk{N}}
+\newcommand{\frkO}[0]{\frk{O}}
+\newcommand{\frkP}[0]{\frk{P}}
+\newcommand{\frkQ}[0]{\frk{Q}}
+\newcommand{\frkR}[0]{\frk{R}}
+\newcommand{\frkS}[0]{\frk{S}}
+\newcommand{\frkT}[0]{\frk{T}}
+\newcommand{\frkU}[0]{\frk{U}}
+\newcommand{\frkV}[0]{\frk{V}}
+\newcommand{\frkW}[0]{\frk{W}}
+\newcommand{\frkX}[0]{\frk{X}}
+\newcommand{\frkY}[0]{\frk{Y}}
+\newcommand{\frkZ}[0]{\frk{Z}}
+
+%  \expandafter\gdef\expandafter\gtemp\expandafter\bracketMatrixstack{\expandafter\BODY}%
+%  \aftergroup\gtemp%
+\newenvironment{bmate}[0]{\bmat\{}{\}}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert\lvert}{\rvert\rvert}
+
+\newcolumntype{A}{ >{$$} r <{$$} @{} >{$${}} l <{$$} }
+
+\graphicspath{ {./figures/} }
+
+\begin{document}
+$if(title)$
+\maketitle
+$endif$
+
+$body$
+
+\end{document}

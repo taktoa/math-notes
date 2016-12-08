@@ -1,0 +1,16 @@
+#+TITLE:  Mathematics Notes
+#+AUTHOR: Remy Goldschmidt
+
+* Abstract Algebra
+#+BEGIN_SRC latex
+\begin{itemlist}
+@
+\end{itemlist}
+#+END_SRC
+
+* Resources
+#+BEGIN_SRC latex
+\begin{itemlist}
+@
+\end{itemlist}
+#+END_SRC
