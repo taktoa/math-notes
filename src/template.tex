@@ -196,6 +196,7 @@ $endfor$
 \usepackage{cancel}
 \usepackage{tikz-cd}
 \usepackage{bussproofs}
+\usepackage{ocgx}
 \singlespacing{}
 
 \newcommand{\catset}[0]{\mathbf{Set}}
@@ -203,6 +204,8 @@ $endfor$
 \newcommand{\catgrp}[0]{\mathbf{Grp}}
 \newcommand{\catab}[0]{\mathbf{Ab}}
 \newcommand{\cat}[1]{\mathbf{#1}}
+
+\newcommand{\opcat}[1]{{#1}^{\mathrm{op}}}
 
 \newcommand{\modulo}[0]{\mathbin{\mathsmaller{\%}}}
 
@@ -308,6 +311,7 @@ $endfor$
 
 \newcommand{\mbb}[1]{\mathbb{#1}}
 \newcommand{\msf}[1]{\mathsf{#1}}
+\newcommand{\mbf}[1]{\mathbf{#1}}
 \newcommand{\mtt}[1]{\mathtt{#1}}
 \newcommand{\mcl}[1]{\mathcal{#1}}
 % \newcommand{\iff}[0]{\Leftrightarrow}
@@ -332,9 +336,12 @@ $endfor$
 
 \newcommand{\refl}[0]{\ensuremath{\mathrm{refl.}}}
 
-\newcommand{\join}[0]{\ensuremath{\mathbin{\sqcup}}}
-\newcommand{\meet}[0]{\ensuremath{\mathbin{\sqcap}}}
+\newcommand{\join}[0]{\ensuremath{\mathrel{\sqcup}}}
+\newcommand{\meet}[0]{\ensuremath{\mathrel{\sqcap}}}
+\newcommand{\bigjoin}[0]{\ensuremath{{\sqcup}\,}}
+\newcommand{\bigmeet}[0]{\ensuremath{{\sqcap}\,}}
 \newcommand{\poset}[0]{\ensuremath{\mathrel{\sqsubseteq}}}
+\newcommand{\tesop}[0]{\ensuremath{\mathrel{\sqsupseteq}}}
 
 \newcommand{\hoare}[3]{\ensuremath{\{#1\}\,\,\text{\texttt{#2}}\,\,\{#3\}}}
 
@@ -440,6 +447,11 @@ $endfor$
 \newcommand{\tens}[0]{\otimes}
 \newcommand{\comp}[0]{\circ}
 \newcommand{\abkt}[1]{{\langle{} \mkern1mu {#1} \mkern1mu \rangle{}}}
+
+\DeclareMathOperator{\interior}{Int}
+\DeclareMathOperator{\closure}{Cl}
+
+\renewcommand{\complement}[1]{{{#1}^{c}}}
 
 \newcommand{\enbox}[1]{\boxed{#1}}
 \newenvironment{orglatex}[0]{}{}

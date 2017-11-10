@@ -76,6 +76,91 @@
 \end{enumlist}
 #+END_SRC
 
+* Locale Theory
+#+BEGIN_SRC latex
+\begin{itemlist}
+@ For some set $A$ and relation $R \subseteq A \times A$:
+@@ $R$ is \textsf{reflexive} iff for all $x \in A$, $(x, x) \in R$.
+@@ $R$ is \textsf{transitive} iff for all $(x, y, z) \in A^3$ such that
+   $(x, y) \in R$ and $(y, z) \in R$, we have $(x, z) \in R$.
+@@ $R$ is \textsf{symmetric} iff for all $(x, y) \in A^2$,
+   $(x, y) \in R \iff (y, x) \in R$.
+@@ $R$ is \textsf{anti-symmetric} iff for all $(x, y) \in A^2$ such that
+   $(x, y) \in R$ and $(y, x) \in R$, we have $x = y$.
+@ A \textsf{preorder} is a set $P$ equipped with a relation $(\poset)$ that is
+  both reflexive and transitive.
+@@ Alternatively, a preorder can be thought of as a category in which for any
+   pair of objects $(X, Y)$, we have $\abs{X \to Y} \le 1$.
+@@ The \textsf{opposite preorder} for a preorder $P = (X, \poset)$ is defined as
+   $\opcat{P} = (X, \tesop)$.
+@@ A function $f : (P, \poset_P) \to (Q, \poset_Q)$ is \textsf{monotone} iff
+   $\forall (x, y) \in P^2 ~ . ~ x \poset_P y \implies f(x) \poset_Q f(y)$.
+@ A \textsf{poset} is a preorder in which $(\poset)$ is anti-symmetric.
+@@ Alternatively, a poset can be thought of as a category in which for any pair
+   of objects $(X, Y)$, we have $\abs{(X \to Y) \cup (Y \to X)} \le 1$.
+@@ Every preorder $P$ gives rise to a poset $P / (\equiv)$, where
+   $a \equiv b \iff (a \poset b) \land (b \poset a)$.
+@@ In a given poset $P$, with $X \subseteq P$ and $a \in P$, $a$ is a
+   \textsf{lower bound} (resp. \textsf{upper bound}) for $X$ iff for any
+   $x \in X$, $a \poset x$ (resp. $a \tesop x$).
+@@ A lower bound $a$ of $X$ is a \textsf{meet} if it is greater than or equal to
+   any other lower bound.
+@@ A \textsf{join} is dual to a meet; if $a$ is a join for $X$ in $P$, then
+   $a$ is a meet for $X$ in $\opcat{P}$.
+@ A \textsf{pseudolattice} is a poset in which every nonempty finite subset has
+  a meet and a join.
+@ A \textsf{meet-semilattice} (resp. \textsf{join-semilattice}) is a poset in
+  which every finite subset has a meet (resp. join).
+@ A \textsf{lattice} is a poset that is both a meet-semilattice and a
+  join-semilattice. Alternatively, a lattice is a pseudolattice with empty meets
+  and joins (which correspond to unique maximal and minimal elements).
+@ \textbf{Theorem}:
+  A poset $P$ is a pseudolattice if it has binary meets and joins.
+@ \textbf{Corollary}:
+  If $P$ also has empty meets and joins, it is a lattice.
+@ As a result, we will heretofore denote all finite meets and joins by infix
+  binary operators $(\meet)$ and $(\join)$.
+@ Infinite meets and joins will look like, e.g.: $\bigmeet_i(p_i)$ for a sequence
+  $p : \mbb{N} \to P$ or $\bigmeet(X)$ for some $X \subseteq P$.
+@ For lattices $L_1$ and $L_2$, a function $f : L_1 \to L_2$ is a
+  \textsf{lattice homomorphism} iff $f(a \meet_1 b) = f(a) \meet_2 f(b)$
+  and $f(a \join_1 b) = f(a) \join_2 f(b)$ for all $(a, b) \in L_1^2$.
+@ Note that the set of all pseudolattices is closed under $(\opcat{-})$.
+@ A poset $P$ is a \textsf{frame} iff every subset has join, every finite subset
+  has a meet, and binary meets distribute over joins.
+@@ In general, if $F$ is a frame, $\opcat{F}$ is not a frame.
+@@ One notable exception is the \textsf{powerset frame} on a set $X$, $\mbb{P}(X)$.
+@@ $\mbf{1} = (\{\star\}, \o)$, the \textsf{inconsistent frame}, so named
+   because it has $\bot = \top$.
+@@ $\mbf{2} = (\{\bot,\top\}, \{(\bot, \top)\})$, the \textsf{Sierpinski frame}.
+@ A \textsf{topology} $\Omega$ on a set $X$ is a frame such that $\Omega$ is a
+  subframe of $\mbb{P}(X)$.
+@ A \textsf{topological space} is a set $X$ equipped with a topology $\Omega$.
+@ The elements of $\Omega$ are known as the \textsf{open subsets} of $X$.
+@ For a poset $P$ where $x \in P$ and $S \subseteq P$:
+@@ ${\uparrow}(x) = \{y \in P \mid x \poset y\}$
+   is the \textsf{upper closure} of $x$.
+@@ ${\uparrow}(S) = \{y \in P \mid (\exists x \in S ~ . ~ x \poset y)\}$
+   is the \textsf{upper closure} of $S$.
+@@ The \textsf{lower closure} of $x$ and $S$, denoted by ${\downarrow}(-)$,
+   is just the upper closure in $\opcat{P}$.
+@ Examples of topologies:
+@@ The \textsf{discrete topology} is $\Omega = \mbb{P}(X)$.
+@@ The \textsf{indiscrete topology} is $\Omega = \o$.
+@@ The \textsf{Alexandrov topology} on a poset $P$ is defined as
+   $\Omega = \{{\uparrow}(x) \mid x \in P\}$.
+@ We will heretofore denote the topology associated with any given topological
+  space $X$ by $\Omega_X$.
+@ The \textsf{interior} of a subset $S$ of a topological space $X$ is
+  $\interior(S) = \cup \{A \in \Omega_X \mid A \subseteq S\}$
+@@ Note that $\interior(S)$ is always the largest open set contained in $S$.
+@ A subset $F \subseteq X$ is \textsf{closed} iff its complement is open.
+@ A subset is \textsf{clopen} iff it is both open and closed.
+@ The \textsf{topological closure} of a subset $S \subseteq X$ is
+  $\closure(S) = \complement{(\interior(\complement{S}))}$
+\end{itemlist}
+#+END_SRC
+
 * Resources
 #+BEGIN_SRC latex
 \begin{itemlist}
