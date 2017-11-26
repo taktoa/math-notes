@@ -98,11 +98,11 @@
 \newcommand{\poset}[0]{\ensuremath{\mathrel{\sqsubseteq}}}
 \newcommand{\tesop}[0]{\ensuremath{\mathrel{\sqsupseteq}}}
 
-\newcommand{\catset}[0]{\mathbf{Set}}
-\newcommand{\catmon}[0]{\mathbf{Mon}}
-\newcommand{\catgrp}[0]{\mathbf{Grp}}
-\newcommand{\catab}[0]{\mathbf{Ab}}
-\newcommand{\cat}[1]{\mathbf{#1}}
+\newcommand{\catset}[0]{\mathsf{Set}}
+\newcommand{\catmon}[0]{\mathsf{Mon}}
+\newcommand{\catgrp}[0]{\mathsf{Grp}}
+\newcommand{\catab}[0]{\mathsf{Ab}}
+\newcommand{\cat}[1]{\mathsf{#1}}
 
 \newcommand{\opcat}[1]{{#1}^{\mathrm{op}}}
 
@@ -130,7 +130,57 @@
   The notes I wrote when I took UIUC IE 300: Analysis of Data.
 }
 @ {%
-  \define{finite probability space}
+  A \define{finite probability space} is a tuple
+  $(\Omega \in \catset, \mathrm{pr} : \Omega \to \mbb{R})$ such
+  that $\sum \{\mrm{pr}(\omega) \mid \omega \in \Omega\} = 1$
+  and $\forall \omega \in \Omega ~.~ \mathrm{pr}(\omega) > 0$.
+}
+@ {%
+  A \define{random variable} on $\Omega$ is a function $X : \Omega \to \mbb{R}$.
+}
+@@ {%
+  The \define{expectation} of a random variable $X$, denoted $\mbb{E}(X)$, is
+  defined by
+  \begin{equation*}
+  \mbb{E}(X)
+  = \sum \{ X(\omega) \cdot \mrm{pr}(\omega) \mid \omega \in \Omega \}
+  \end{equation*}
+  \vspace{-2em}
+}
+@ {%
+  An \define{event} is a subset $A \subseteq \Omega$ of the set underlying a
+  finite probability space.
+}
+@@ {%
+  The \define{probability} of an event is defined by
+  \begin{equation*}
+  \mbb{P}(A)
+  = \sum \{ \mrm{pr}(\omega) \mid \omega \in A \}
+  \end{equation*}
+  \vspace{-2em}
+}
+@@ {%
+  For any event $A$, the \define{indicator function} of $A$, denoted $\chi_A$,
+  is a random variable defined by
+  \begin{equation*}
+  \chi_A(\omega)
+  = \left\{
+  \begin{array}{lr}
+    1 & \text{when } \omega \in    A \\
+    0 & \text{when } \omega \notin A
+  \end{array}
+  \right\}
+  \end{equation*}
+  We can think of the probability of an event as being the expectation of the
+  indicator function for that event: $\mbb{P}(A) = \mbb{E}(\chi_A)$.
+}
+@@ {%
+  The \define{complementary event} for any event $A$, denoted $\complement{A}$,
+  is defined by $\complement{A} = \Omega \setminus A$.
+}
+@ {%
+  The set $\Omega \to \mbb{R}$ of all random variables on $\Omega$ is an
+  $n$-dimensional vector space, where $n = \abs{\Omega}$.
 }
 \end{easylist}
 
