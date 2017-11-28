@@ -25,7 +25,6 @@
   colorlinks = true,
   allcolors  = LinkColor
 }
-\urlstyle{same}
 \IfFileExists{parskip.sty}{\usepackage{parskip}}{%
   \setlength{\parindent}{0pt}\setlength{\parskip}{6pt plus 2pt minus 1pt}}
 \setlength{\emergencystretch}{3em}
@@ -98,24 +97,65 @@
 \newcommand{\poset}[0]{\ensuremath{\mathrel{\sqsubseteq}}}
 \newcommand{\tesop}[0]{\ensuremath{\mathrel{\sqsupseteq}}}
 
-\newcommand{\catset}[0]{\mathsf{Set}}
-\newcommand{\catmon}[0]{\mathsf{Mon}}
-\newcommand{\catgrp}[0]{\mathsf{Grp}}
-\newcommand{\catab}[0]{\mathsf{Ab}}
-\newcommand{\cat}[1]{\mathsf{#1}}
+\newcommand{\catset}[0]{\ensuremath{\mathsf{Set}}}
+\newcommand{\catmon}[0]{\ensuremath{\mathsf{Mon}}}
+\newcommand{\catgrp}[0]{\ensuremath{\mathsf{Grp}}}
+\newcommand{\catab}[0]{\ensuremath{\mathsf{Ab}}}
+\newcommand{\cat}[1]{\ensuremath{\mathsf{#1}}}
 
-\newcommand{\opcat}[1]{{#1}^{\mathrm{op}}}
+\newcommand{\opcat}[1]{\ensuremath{{#1}^{\mathrm{op}}}}
 
 \DeclareMathOperator{\interior}{Int}
 \DeclareMathOperator{\closure}{Cl}
+\DeclareMathOperator{\card}{card}
+\DeclareMathOperator{\objects}{Ob}
 
 \renewcommand{\complement}[1]{{{#1}^{c}}}
 
+\newcommand{\degree}[3]{\ensuremath{\msf{deg}_{#2}^{#1}(#3)}}
+\newcommand{\indegree}[3]{\ensuremath{\msf{ideg}_{#2}^{#1}(#3)}}
+\newcommand{\outdegree}[3]{\ensuremath{\msf{odeg}_{#2}^{#1}(#3)}}
+
+\usepackage{url}
+
+\usepackage[
+  backend=biber,
+  bibencoding=utf8,
+  style=numeric,
+  citestyle=numeric-comp]{biblatex}
+
+\addbibresource{notes.bib}
+
+% Usage: \simplecite{URL}{label}{caption}
+\newcommand{\simplecite}[3]{\bibitem{#2}\href{#1}{\textit{#3}}}
+
+% Usage: \simpleref{label}{caption}
+\newcommand{\simpleref}[2]{\hyperlink{#1}{#2}}
+
+\DeclareMathOperator{\diag}{diag}
+
 \DeclareMathOperator{\argmin}{arg\,min}
 
-\newcommand{\define}[1]{\textsf{#1}}
+\newcommand{\define}[1]{\textbs{#1}}
+
+\usepackage{todonotes}
+\newlength{\fixmewidth}
+\setlength{\fixmewidth}{0.7\textwidth}
+\newcommand{\fixme}[1]{%
+  \begin{minipage}[c]{\fixmewidth}%
+  \todo[color=green!40,inline]{\textsc{fixme:} #1}%
+  \end{minipage}}
+\newcommand{\sfixme}[0]{%
+  \begin{minipage}[c]{3.5em}%
+  \todo[color=green!40,inline]{\textsc{fixme}}%
+  \end{minipage}}
+
 
 \begin{document}
+
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
 
 \section{Probability Theory}
 
@@ -184,11 +224,405 @@
 }
 \end{easylist}
 
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+
+\section{Graph Theory}
+
+\begin{refsection}
+
+\subsection{Introduction}
+
+\begin{easylist}[itemize]
+@ {%
+  In the following definitions,
+  $(R, [0_R, 1_R], [\msf{neg}_R], [{+}_R, {\times}_R])$
+  will be an arbitrary rig (semiring). The rig of $m \times n$ $R$-valued
+  matrices will be denoted by $\msf{Mat}_{m \times n}(R)$ or alternatively
+  $n \multimap_R m$. Since ${+}_R$ is commutative, we can denote the arbitrary
+  sum of a set $S \subseteq R$ by $\sum_R S$. In some cases, we may assume
+  that $R$ is a commutative rig, in which case we are allowed to take the
+  arbitrary product of a set $S \subseteq R$, denoted $\prod_R S$.
+}
+@ {%
+  A \define{digraph} (also called a \define{directed graph} or for the purposes
+  of these notes simply a \define{graph}) is a pair $G = (V, E)$ of a set of
+  \define{vertices} $V \subset \catset$ (also called \define{nodes}) and a
+  set of \define{edges} $E \subseteq V^2$. \\
+  $V$ is the \define{vertex set} of $G$ and $E$ is the \define{edge set} of $G$.
+  Since $E$ is a set of pairs, it is also sometimes called the
+  \define{edge relation} of $G$.
+}
+@ {%
+  An \define{undirected graph} is a graph $G = (V, E)$ such that
+  if $(x, y) \in E$ then $(y, x) \in E$. \\
+  Equivalently, a graph is undirected iff its edge relation is symmetric.
+}
+@ {%
+  An \define{$R$-weighted graph} is a pair $G = ((V, E), \delta)$ of a graph
+  $(V, E)$ and a function $\delta : E \to R$. \\
+  We will sometimes call a graph ``unweighted'' to emphasize that it is not
+  a weighted graph.
+  We will sometimes refer to $(V, E)$ as the
+  \define{underlying (unweighted) graph} of $G$.
+  Similarly, $\delta$ is called the \define{(edge) weight function} of $G$.
+
+  If $(M, {+}_M, 0_M)$ is a monoid, the \define{pair weight function} of
+  an $M$-weighted graph $G = ((V, E), \delta)$, denoted $\pi_G : V^2 \to M$,
+  is defined by:
+  \begin{equation*}
+  \pi_G(x, y) = \left\{\begin{array}{lr}
+  \delta(x, y) & \text{ when } (x, y) \in    E \\
+  0_M          & \text{ when } (x, y) \notin E \\
+  \end{array}\right\}
+  \end{equation*}
+  This should be obvious from the notation, but if $R$ is a semiring, the pair
+  weight function of an $R$-weighted graph will use the additive monoid of $R$.
+}
+@ {%
+  The \define{complement} of an unweighted graph $G = (V, E)$
+  is defined by $\overline{G} = (V, \{e \in V^2 \mid e \notin E\})$.
+}
+\end{easylist}
+
+\subsection{Spectral Graph Theory}
+
+\begin{easylist}[itemize]
+@ {%
+  The \define{adjacency matrix} of an $R$-weighted graph
+  $G = ((V = [1, n] \subset \mbb{N}, E \subseteq V^2), \delta \in E \to R)$
+  is the unique $n \times n$ $R$-valued matrix $\msf{Adj}(G)$ such that for
+  all $(i, j) \in V^2$, ${\msf{Adj}(G)}_{ij} = \pi_G(i, j)$.
+}
+@@ {%
+  An adjacency matrix of an unweighted graph $G = (V, E)$ is just defined to be
+  an adjacency matrix of $(V, E, (x, y) \mapsto 1_R)$ for any commutative
+  ring $R$.
+}
+@@ {%
+  \textbf{Theorem}: for any graph $G$, if $A$ and $B$ are both adjacency
+  matrices of $P$, then there exists a permutation matrix $P$ such that
+  $B = P^\top A P$.
+}
+@@ {%
+  If, for some graph $G = (V \subset \catset, E \subseteq V^2)$, there is an
+  obvious total order relation available for $V$, we will define the adjacency
+  matrix of $G$ to be the adjacency matrix of the graph given by the unique
+  bijection between $V$ and $[1, \card(V)]$ generated by the total order
+  (i.e.: the sequence generated by sorting the elements of $V$ under the
+  total order).
+
+  Henceforth, when defining terminology relating to graphs, we will assume that
+  the graph has $V = [1, n] \subset \mbb{N}_{+}$ for some $n \in \mbb{N}_{+}$,
+  and then implicitly extend the defined notion to any graph with a totally
+  ordered vertex set in the way we just did for $\msf{Adj}(-)$.
+}
+@@ {%
+  \textbf{Theorem}:
+  if a graph $G$ is undirected, then $\msf{Adj}(G)$ is a symmetric matrix.
+
+  \textbf{Theorem}:
+  if a graph $G$ is unweighted, then $\msf{Adj}(G)$ is a binary matrix.
+
+  \textbf{Theorem}:
+  if a graph $G$ has no edges ($G = ((V, \emptyset), \emptyset)$),
+  then $\msf{Adj}(G)$ is a zero matrix.
+
+  \textbf{Theorem}:
+  if an unweighted graph $G$ is a ``complete graph'', that is, if there
+  exists a set $V$ such that $G = (V, V^2)$, then $\msf{Adj}(G)$ is a matrix
+  full of $1_R$.
+}
+@ {%
+  The \define{weighted outdegree} of a node $x$ in an $R$-weighted graph
+  $G = ((V, E), \delta)$ is defined to be the weighted sum of the set of edges
+  that \textit{start} at $x$:
+  $\outdegree{R}{G}{x} = \sum_R \{\delta(x, b) \mid (x, b) \in E\}$.
+
+  The \define{weighted indegree} of a node $x$ in an $R$-weighted graph
+  $G = ((V, E), \delta)$ is defined to be the weighted sum of the set of edges
+  that \textit{end} at $x$:
+  $\indegree{R}{G}{x} = \sum_R \{\delta(a, x) \mid (a, x) \in E\}$.
+
+  The \define{weighted degree} of a node $x$ in a weighted \textit{undirected}
+  graph $G$ is the same as its weighted indegree or its weighted outdegree:
+  $\degree{R}{G}{x} = \indegree{R}{G}{x} = \outdegree{R}{G}{x}$.
+
+  The \define{outdegree} and \define{indegree} in an unweighted graph
+  $G = (V, E)$ are given by the weighted outdegree and weighted indegree of
+  $((V, E), (x, y) \mapsto 1 \in \mbb{N})$.
+  They are denoted by $\outdegree{}{G}{\circ}$ and $\indegree{}{G}{\circ}$
+  respectively.
+
+  Similarly, the \define{degree} in an unweighted undirected graph $G = (V, E)$
+  is given by the weighted degree in $((V, E), (x, y) \mapsto 1 \in \mbb{N})$.
+  The degree is denoted by $\degree{}{G}{\circ}$.
+
+  Let's define the outdegree/indegree/degree of a node in a $W$-weighted graph
+  to be the outdegree/indegree/degree of the node in the underlying unweighted
+  graph.
+
+  A graph $G = (V, E)$ is \define{regular} iff
+  $\exists n \in \mbb{N} ~.~ \forall x \in V ~.~
+  n = \indegree{}{G}{x} = \outdegree{}{G}{x}$. \\
+  In other words, a graph is regular iff the outdegree of every node is equal
+  to some natural $n$ and the indegree of every node is also equal to $n$.
+}
+@ {%
+  The \define{indegree matrix} of an order-$n$ graph $G$ is given by
+  $\msf{D}_G^\msf{in} = \diag(\indegree{}{G}{1}, \dotsc, \indegree{}{G}{n})$.
+
+  The \define{outdegree matrix} of an order-$n$ graph $G$ is given by
+  $\msf{D}_G^\msf{out} = \diag(\outdegree{}{G}{1}, \dotsc, \outdegree{}{G}{n})$.
+
+  The \define{degree matrix} of an undirected graph $G = (([1, n], E), \delta)$
+  is the same as its indegree matrix and its outdegree matrix:
+  $ \msf{D}_G
+  = \msf{D}_G^\msf{in}
+  = \msf{D}_G^\msf{out}
+  = \diag(\degree{}{G}{1}, \dotsc, \degree{}{G}{n})$.
+}
+@ Laplacian matrix
+@@ {%
+  The \define{Laplacian matrix} of a graph $(V \in \catset, E \subseteq V^2)$
+
+}
+@ {%
+  If $M$ is $n \times n$ $\mbb{C}$-valued matrix, then the \define{spectrum} of
+  $M$ is its set of eigenvalues. The spectrum of $M$ is denoted by
+  $\msf{Spec}(M) \in \{A \in \mbb{P}(\mbb{C}) \mid \card(A) = n\}$.
+  If $R$ is a subring of $\mbb{C}$, then the spectrum of an $R$-valued matrix
+  is defined by the inclusion map into $\mbb{C}$.
+
+  The function mapping the spectrum of an $n \times n$ $R$-matrix $M$
+  to the corresponding eigenvectors is denoted by
+  $\eta_M : \msf{Spec}(M) \to \mbb{C}^n$.
+  The function mapping the spectrum of $M$ to the corresponding eigenvalue
+  multiplicities is denoted by $\kappa_M : \msf{Spec}(G) \to \mbb{N}$.
+
+  Define $\msf{sort}(S \subseteq \mbb{C}) : [1, \card(S)] \to \mbb{C}$
+  to be the function that sorts a set of complex numbers in increasing order
+  of absolute value (i.e.: under the order induced by the total ordering of the
+  reals when mapping with $(z \mapsto z \bar{z}) \in \mbb{C} \to \mbb{R}$).
+
+  As shorthand, we will define the spectrum of a $R$-weighted graph
+  $G = ((V, E), \delta)$, where $R \subseteq \mbb{C}$, to be the spectrum of
+  its adjacency matrix; that is to say
+  $\msf{Spec}(G) \equiv \msf{Spec}(\msf{Adj}(G))$.
+  The $\eta_{\circ}$ and $\kappa_{\circ}$ functions are lifted to graphs in
+  this way as well.
+
+  If $A$ and $B$ have the same spectrum, we say that $A$ is \define{isospectral}
+  to $B$; this is true whether $A$ and $B$ are graphs or matrices.
+  
+  % If $(C, [0_C, 1_C], [\msf{neg}_C, \msf{inv}_C], [{+}_C, {\times}_C])$
+  % is an algebraically closed field and $G$ is a $C$-weighted graph,
+  % then the \define{spectrum} of $G$ is the set of eigenvalues of $\msf{Adj}(G)$.
+  % The spectrum of $G$ is denoted by
+  % $\msf{Spec}(G) \in \{A \in \mbb{P}(C) \mid \card(A) = n\}$.
+}
+@@ {%
+  \textbf{Note}: Most of the following statements come from
+  \cite{brouwer-haemers}.
+}
+@@ {%
+  \textbf{Theorem}: if $G = ([1, n], E)$ is an unweighted undirected graph, then
+  the unit eigenvectors of $\msf{Adj}(G)$ form an orthogonal basis for $R^n$.
+}
+@@ {%
+  \textbf{Theorem}:
+  If $G = ((V, E), \delta)$, then
+  $\msf{Spec}(\overline{G}) = \{\card(V) \}$
+}
+\end{easylist}
+
+\printbibliography[heading=subbibliography]
+
+\end{refsection}
+
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+
+\section{Differential Geometry}
+
+\begin{easylist}[itemize]
+\end{easylist}
+
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+
+\section{Linear Algebra}
+
+\subsection{Matrices}
+
+\begin{easylist}[itemize]
+@ {%
+  If $\mbs{s}$ is a commutative ring and $(m, n) \in \mbb{N}$,
+  then $m \multimap_\mbs{s} n$ denotes the $\mbs{s}$-bimodule
+  of $n \times m$ matrices. Sometimes, we will use the alternative notation
+  $\mbs{M}_{m \times n}(\mbs{s}) = n \multimap_\mbs{s} m$.
+}
+@ {%
+  \textbf{Theorem}:
+  If $\mbs{s}$ is a field, then $m \multimap_\mbs{s} n$ is a vector space with
+  $\mbs{s}$ as its field of scalars.
+  Equivalently, $\msf{Vect}_\mbs{s}$ is a closed category (which means that
+  it has an internal hom).
+}
+@ {%
+  \textbf{Theorem}:
+  Every matrix in $m \multimap_\mbs{s} n$ corresponds to a linear map
+  in $\mbs{s}^m \to \mbs{s}^n$. For a matrix $M$, this linear map is given
+  by $v \mapsto M \cdot v$. Composition of these linear maps corresponds to
+  the matrix product.
+}
+@ {%
+ There are several categories whose morphisms can be thought of as matrices:
+}
+@@ {%
+  $\msf{Mat}_\mbs{s}$ is the category for which the objects are elements of the
+  set $\{\mbs{s}^n \mid n \in \mbb{N}\}$, the hom-set between $\mbs{s}^x$ and
+  $\mbs{s}^y$ is $\mbs{M}_{y \times x}(\mbs{s})$, and composition of morphisms
+  is given by matrix multiplication.
+}
+@@ {%
+  $\msf{Vect}_\mbs{s}$ is the category of vector spaces with linear maps as
+  morphisms and composition of morphisms given by ordinary function composition.
+
+  This might seem like a category relevant to matrices, but it isn't, as not
+  only are there vector spaces in $\msf{Vect}_\mbs{s}$ that are
+  infinite-dimensional, but there are vector spaces in $\msf{Vect}_\mbs{s}$
+  whose dimension is uncountable!
+
+  For example, define $\mbs{Unc}$ to be the vector space whose set of vectors is
+  defined by
+  $\{f \in \mbb{R} \to \mbb{R} \mid \card(\{x \in \mbb{R} \mid f(x) \neq 0\}) \in \mbb{N}\}$,
+  whose addition is pointwise, and whose multiplication is pointwise.
+  Since $\{(y \mapsto \delta(x, y)) \mid x \in \mbb{R}\}$ is a basis for
+  $\mbs{Unc}$, where $\delta(x, y) = [x = y]$ is the Kronecker delta function
+  on $\mbb{R}$, and $x \mapsto (y \mapsto \delta(x, y))$ is a bijection, and all
+  the bases of a vector space must have the same cardinality as the dimension of
+  the vector space, it must be the case that dimension of $\mbs{Unc}$ is
+  $\abs{\mbb{R}}$, which is uncountable.
+
+  While the concept of infinite matrices might seem reasonable, the idea of
+  a matrix with uncountably many columns is not reasonable. Thus, an exposition
+  of $\msf{Mat}_\mbs{s}$ needs to talk about $\msf{FinVect}_\mbs{s}$, the full
+  subcategory of $\msf{Vect}_\mbs{s}$ consisting of only the finite-dimensional
+  vector spaces (a full subcategory has the same hom-sets as its supercategory).
+
+  Now we can describe $\msf{Mat}_\mbs{s}$ as the quotient
+  of $\msf{FinVect}_\mbs{s}$ by the equivalence relation given by isomorphisms
+  in $\msf{FinVect}_\mbs{s}$. Thus, $\msf{Mat}_\mbs{s}$ is the skeleton
+  of $\msf{FinVect}_\mbs{s}$, which is unique up to isomorphism of categories.
+}
+\end{easylist}
+
+\subsection{Matrix Product}
+
+\begin{easylist}[itemize]
+@ FIXME
+\end{easylist}
+
+\subsection{Kronecker Product}
+
+\begin{easylist}[itemize]
+@ {%
+  If $A \in m \multimap_\mbs{s} n$ and $B \in p \multimap_\mbs{s} q$, then the
+  \define{Kronecker product} of $A$ and $B$ is defined by
+  \begin{align*}
+    A \otimes B
+    & \in m p \multimap n q \\
+    A \otimes B
+    & = \mathsf{flatten}{\left(\begin{bmatrix}
+    A_{11} B & \cdots & A_{1n} B \\
+    \vdots   & \ddots & \vdots   \\
+    A_{m1} B & \cdots & A_{mn} B \\
+    \end{bmatrix}\right)}
+  \end{align*}
+  where
+  $ \mathsf{flatten}
+  \in \mbs{M}_{a \times b}(\mbs{M}_{x \times y}(\mbs{s}))
+  \to \mbs{M}_{a x \times b y}(\mbs{s})$
+  is the function that ``flattens'' a block matrix into a matrix of scalars,
+  and $A_{xy}$ is the scalar coordinate of $A$ at position $(x, y)$.
+}
+@ {%
+  The Kronecker product can be used to make a tensor product for
+  $\msf{Mat}_\mbs{s}$, thus making it a (non-strict) monoidal closed category,
+  in the following way:
+}
+@@ {%
+  The tensor unit is the \fixme{object in $\msf{Mat}_\mbs{s}$}.
+}
+@@ {%
+  The tensor product bifunctor $\otimes$ acts on objects of
+  $\msf{Mat}_\mbs{s}$ by
+  \begin{align*}
+    \mbs{s}^m \otimes \mbs{s}^n & = (\mbs{s}^m \times \mbs{s}^n) / \phi \\
+    {} & \phi((k x, y), (x, k y)) \\
+  \end{align*}
+  \vspace{-2em}
+}
+@@ {%
+  The tensor product bifunctor $\otimes$ acts on morphisms of
+  $\msf{Mat}_\mbs{s}$, which are matrices, via the Kronecker product.
+}
+@@ {%
+  The associator and unitors are the obvious ones.
+}
+@@ {%
+}
+@ There are a large number of identities involving the Kronecker product:
+@@ {%
+  Since the Kronecker product is a tensor product, it is bilinear:
+  \begin{align*}
+    A \otimes (B + C)       & = A \otimes B + A \otimes C \\
+    (A + B) \otimes C       & = A \otimes C + B \otimes C \\
+    (r A) \otimes (s B)     & = r s (A \otimes B)
+  \end{align*}
+  and it is associative:
+  \begin{align*}
+    (A \otimes B) \otimes C & = A \otimes (B \otimes C)
+  \end{align*}
+  \vspace{-2em}
+}
+@@ {%
+  Although the Kronecker product is \textit{not} commutative, $A \otimes B$
+  is always permutation-equivalent to $B \otimes A$.
+  In other words, for every pair of matrices $A \in m \multimap_\mbs{s} n$
+  and $B \in p \multimap_\mbs{s} q$, there always exist permutation matrices
+  $P \in n q \multimap_\mbs{s} n q$ and $Q \in m p \multimap_\mbs{s} m p$
+  such that $A \otimes B = P \cdot (B \otimes A) \cdot Q$. If $A$ and $B$ are
+  square, then $P = Q^{-1} = Q^\top$ and $A \otimes B$ is thus permutation
+  similar to $B \otimes A$.
+  I'm not sure, but I think that this means that
+}
+@@ {%
+  The matrix product ($\cdot$) and Kronecker product ($\otimes$) obey the
+  \define{mixed product property}, which says that for any appropriately
+  shaped matrices $A$, $B$, $C$, and $D$:
+  \begin{equation*}
+  (A \otimes B) \cdot (C \otimes D) = (A \cdot C) \otimes (B \cdot D)
+  \end{equation*}
+  Equivalently, if $\msf{Mat}_\mbs{s}$ is thought of as a closed monoidal
+  category with the Kronecker product as its tensor product, then
+  $\msf{Mat}_\mbs{s}$ is a symmetric monoidal closed category.
+}
+\end{easylist}
+
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+
 \section{Abstract Algebra}
 
 \subsection{Ideals}
 
-\begin{easylist}[enumerate]
+\begin{easylist}[itemize]
 @ {%
   An \define{ideal} $I$ of a ring $R$ should be thought of as a particular kind
   of subset of a ring.
@@ -304,6 +738,10 @@
   is a complete modular lattice.
 }
 \end{easylist}
+
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
 
 \section{Locale Theory}
 
@@ -458,5 +896,9 @@
   $\closure(S) = \complement{(\interior(\complement{S}))}$
 }
 \end{easylist}
+
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
 
 \end{document}
