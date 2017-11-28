@@ -286,7 +286,7 @@
 }
 \end{easylist}
 
-\subsection{Spectral Graph Theory}
+\subsection{Algebraic Graph Theory}
 
 \begin{easylist}[itemize]
 @ {%
@@ -363,30 +363,58 @@
   to be the outdegree/indegree/degree of the node in the underlying unweighted
   graph.
 
-  A graph $G = (V, E)$ is \define{regular} iff
-  $\exists n \in \mbb{N} ~.~ \forall x \in V ~.~
-  n = \indegree{}{G}{x} = \outdegree{}{G}{x}$. \\
-  In other words, a graph is regular iff the outdegree of every node is equal
-  to some natural $n$ and the indegree of every node is also equal to $n$.
+  A graph $G$ is \define{$n$-regular} iff every node in $G$ has indegree $n$
+  and outdegree $n$.
+
+  A graph $G$ is \define{regular} iff there exists an $n \in \mbb{N}$ such
+  that $G$ is $n$-regular.
 }
 @ {%
   The \define{indegree matrix} of an order-$n$ graph $G$ is given by
-  $\msf{D}_G^\msf{in} = \diag(\indegree{}{G}{1}, \dotsc, \indegree{}{G}{n})$.
+  $\msf{D}^\msf{in}(G) = \diag(\indegree{}{G}{1}, \dotsc, \indegree{}{G}{n})$.
 
   The \define{outdegree matrix} of an order-$n$ graph $G$ is given by
-  $\msf{D}_G^\msf{out} = \diag(\outdegree{}{G}{1}, \dotsc, \outdegree{}{G}{n})$.
+  $\msf{D}^\msf{out}(G) = \diag(\outdegree{}{G}{1}, \dotsc, \outdegree{}{G}{n})$.
 
   The \define{degree matrix} of an undirected graph $G = (([1, n], E), \delta)$
   is the same as its indegree matrix and its outdegree matrix:
-  $ \msf{D}_G
-  = \msf{D}_G^\msf{in}
-  = \msf{D}_G^\msf{out}
+  $ \msf{D}(G)
+  = \msf{D}^\msf{in}(G)
+  = \msf{D}^\msf{out}(G)
   = \diag(\degree{}{G}{1}, \dotsc, \degree{}{G}{n})$.
 }
-@ Laplacian matrix
-@@ {%
-  The \define{Laplacian matrix} of a graph $(V \in \catset, E \subseteq V^2)$
+@ {%
+  The \define{Laplacian matrix} of an undirected graph $G = (V, E)$
+  is $\mathrm{\Delta}(G) = \msf{D}(G) - \msf{Adj}(G)$.
 
+  On a directed graph $G = (V, E)$, the \define{indegree Laplacian matrix}
+  is $\mathrm{\Delta}^\msf{in}(G) = \msf{D}^\msf{in}(G) - \msf{Adj}(G)$.
+  The \define{outdegree Laplacian matrix} $\mathrm{\Delta}^\msf{out}(G)$
+  is defined the same way.
+}
+@@ {%
+  \textbf{Theorem}:
+  $\mathrm{\Delta}(G)$ is a symmetric positive-semidefinite matrix.
+
+  \textbf{Theorem}:
+  The smallest eigenvalue of $\mathrm{\Delta}(G)$ is always $0$.
+
+  \textbf{Theorem}:
+  The product of the nonzero eigenvalues of $\mathrm{\Delta}(G)$ is equal to
+  $\abs{G}$ times the number of spanning trees in $G$.
+  
+  \textbf{Theorem}:
+  The number of connected components of $G$, $n$, is equal to the
+  dimension of the nullspace of $\mathrm{\Delta}(G)$.
+  Furthermore, the multiplicity of the $0$ eigenvalue in the spectrum of
+  $\mathrm{\Delta}(G)$ is also equal to $n$.
+
+  \textbf{Theorem}:
+  $\mathrm{\Delta}(G)$ is always singular.
+}
+@@ {%
+  The Laplacian matrix is like a discrete version of the Laplace operator.
+  \sfixme{}
 }
 @ {%
   If $M$ is $n \times n$ $\mbb{C}$-valued matrix, then the \define{spectrum} of
@@ -415,7 +443,7 @@
 
   If $A$ and $B$ have the same spectrum, we say that $A$ is \define{isospectral}
   to $B$; this is true whether $A$ and $B$ are graphs or matrices.
-  
+
   % If $(C, [0_C, 1_C], [\msf{neg}_C, \msf{inv}_C], [{+}_C, {\times}_C])$
   % is an algebraically closed field and $G$ is a $C$-weighted graph,
   % then the \define{spectrum} of $G$ is the set of eigenvalues of $\msf{Adj}(G)$.
@@ -427,13 +455,14 @@
   \cite{brouwer-haemers}.
 }
 @@ {%
-  \textbf{Theorem}: if $G = ([1, n], E)$ is an unweighted undirected graph, then
-  the unit eigenvectors of $\msf{Adj}(G)$ form an orthogonal basis for $R^n$.
+  \textbf{Theorem}:
+  \fixme{spectral theorem, maybe in terms of a $C^\star$-algebra}
 }
 @@ {%
   \textbf{Theorem}:
   If $G = ((V, E), \delta)$, then
-  $\msf{Spec}(\overline{G}) = \{\card(V) \}$
+  $ \msf{Spec}(\overline{G})
+  = \{\card(V) - v \mid v \in \msf{Spec}(\mrm{\Delta}(G))\}$.
 }
 \end{easylist}
 
