@@ -1,3 +1,5 @@
+all: build
+
 deploy:
 	git stash save --all
 	git checkout master
@@ -15,7 +17,6 @@ deploy:
 	git checkout master
 	git clean -Xdf
 	git stash pop
-	git gc
 
 build:
 	mkdir -pv out
