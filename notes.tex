@@ -90,6 +90,7 @@
 \newcommand{\tens}[0]{\otimes}
 \newcommand{\comp}[0]{\circ}
 
+\renewcommand{\empty}[0]{\ensuremath{\o}}
 \newcommand{\join}[0]{\ensuremath{\mathrel{\sqcup}}}
 \newcommand{\meet}[0]{\ensuremath{\mathrel{\sqcap}}}
 \newcommand{\bigjoin}[0]{\ensuremath{{\sqcup}\,}}
@@ -103,11 +104,12 @@
 \newcommand{\catab}[0]{\ensuremath{\mathsf{Ab}}}
 \newcommand{\cat}[1]{\ensuremath{\mathsf{#1}}}
 
-\newcommand{\opcat}[1]{\ensuremath{{#1}^{\mathrm{op}}}}
+\newcommand{\opcat}[1]{\ensuremath{{#1}^{\mathsf{op}}}}
 
 \DeclareMathOperator{\interior}{Int}
 \DeclareMathOperator{\closure}{Cl}
 \DeclareMathOperator{\card}{card}
+\DeclareMathOperator{\homset}{Hom}
 \DeclareMathOperator{\objects}{Ob}
 
 \renewcommand{\complement}[1]{{{#1}^{c}}}
@@ -152,6 +154,24 @@
 
 
 \begin{document}
+
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+
+\section{Notation}
+
+\begin{easylist}[itemize]
+@ {%
+  Differences in between common set-theoretic notation and what is used in
+  this document:
+}
+@@ {%
+  Usually, $f({-})$ is used to denote $x \mapsto f(x)$, where $x$ is fresh
+  variable. \\ This document instead uses $f(\circ)$, since it can be less
+  confusing in some cases.
+}
+\end{easylist}
 
 % ------------------------------------------------------------------------------
 % ------------------------------------------------------------------------------
@@ -326,7 +346,7 @@
   if a graph $G$ is unweighted, then $\msf{Adj}(G)$ is a binary matrix.
 
   \textbf{Theorem}:
-  if a graph $G$ has no edges ($G = ((V, \emptyset), \emptyset)$),
+  if a graph $G$ has no edges ($G = ((V, \empty), \empty)$),
   then $\msf{Adj}(G)$ is a zero matrix.
 
   \textbf{Theorem}:
@@ -402,7 +422,7 @@
   \textbf{Theorem}:
   The product of the nonzero eigenvalues of $\mathrm{\Delta}(G)$ is equal to
   $\abs{G}$ times the number of spanning trees in $G$.
-  
+
   \textbf{Theorem}:
   The number of connected components of $G$, $n$, is equal to the
   dimension of the nullspace of $\mathrm{\Delta}(G)$.
@@ -477,6 +497,39 @@
 \section{Differential Geometry}
 
 \begin{easylist}[itemize]
+@ {%
+  A \define{topological space} is a pair $(S, \Omega_S \subseteq \mbb{P}(S))$
+  such that:
+}
+@@ {%
+  $\{\empty, S\} \subseteq \Omega$
+}
+@@ {%
+  $\Omega$ is closed under arbitrary unions:
+  $\forall \omega \subseteq \Omega ~.~ {\cup}(\omega) \in \Omega$
+}
+@@ {%
+  $\Omega$ is closed under finite intersections:
+  $\forall (A, B) \in \Omega^2 ~.~ A \cap B \in \Omega$
+}
+@ {%
+  $\Omega$ is called the \define{topology} of $S$.
+}
+@ {%
+  A topological space $(S, \Omega)$ is \define{Hausdorff} if, for any two
+  distinct points $x$ and $y$ in $S$
+}
+@ {%
+  A \define{topological manifold} is a locally Euclidean, paracompact, Hausdorff
+}
+@ {%
+  A \define{$C^k$ manifold of dimension $n$} is a topological space equipped
+  with
+}
+@ {%
+  A \define{smooth manifold of dimension $n$} is another name for a
+  $C^\infty$ manifold of dimension $n$.
+}
 \end{easylist}
 
 % ------------------------------------------------------------------------------
@@ -781,28 +834,30 @@
     \textit{Topology via Logic}}
   by Steven Vickers
 }
-@ For some set $A$ and relation $R \subseteq A \times A$:
-@@ $R$ is \define{reflexive} iff for all $x \in A$, $(x, x) \in R$.
+@ For some set $A$ and relation $(\#) \subseteq A \times A$:
+@@ $(\#)$ is \define{reflexive} iff $\forall x \in A ~.~ x \mathrel{\#} x$.
 @@ {%
-  $R$ is \define{transitive} iff for all $(x, y, z) \in A^3$ such that
-  $(x, y) \in R$ and $(y, z) \in R$, we have $(x, z) \in R$.
+  $(\#)$ is \define{transitive} iff
+  $\forall (x, y, z) \in A^3 ~.~
+  ((x \mathrel{\#} y) \land (y \mathrel{\#} z)) \implies (x \mathrel{\#} z)$.
 }
 @@ {%
-  $R$ is \define{symmetric} iff for all $(x, y) \in A^2$,
-  $(x, y) \in R \iff (y, x) \in R$.
+  $(\#)$ is \define{symmetric} iff for all $(x, y) \in A^2$,
+  $(x \mathrel{\#} y) \iff (y \mathrel{\#} x)$.
 }
 @@ {%
-  $R$ is \define{anti-symmetric} iff for all $(x, y) \in A^2$ such that
-  $(x, y) \in R$ and $(y, x) \in R$, we have $x = y$.
+  $(\#)$ is \define{anti-symmetric} iff for all $(x, y) \in A^2$ such that
+  $x \mathrel{\#} y$ and $y \mathrel{\#} x$, we have $x = y$.
 }
 @ {%
   A \define{preorder} is a set $P$ equipped with a relation $(\poset)$ that is
   both reflexive and transitive.
 }
 @@ {%
-  Alternatively, a preorder can be thought of as a category in which for any
-  pair of objects $(X, Y)$, we have $\abs{X \to Y} \le 1$. For this reason,
-  preorders are sometimes called \define{thin categories}.
+  Alternatively, a preorder can be thought of as a category $C$ in which \\
+  $\forall (X, Y) \in {\objects(C)}^2 ~.~ \abs{\homset(X, Y)} \le 1$.
+
+  For this reason, preorders are sometimes called \define{thin categories}.
 }
 @@ {%
   The \define{opposite preorder} for a preorder $P = (X, \poset)$ is defined as
@@ -810,21 +865,27 @@
 }
 @@ {%
   A function $f : (P, \poset_P) \to (Q, \poset_Q)$ is \define{monotone} iff
-  $\forall (x, y) \in P^2 ~ . ~ x \poset_P y \implies f(x) \poset_Q f(y)$.
+  for every $(x, y) \in P^2$, it is the case that
+  $x \poset_P y \implies f(x) \poset_Q f(y)$.
+
+  The category of thin categories has monotone functions as morphisms.
+
+  In other words, a functor between thin categories is a monotone function.
 }
 @ A \define{poset} is a preorder in which $(\poset)$ is anti-symmetric.
 @@ {%
-  Alternatively, a poset can be thought of as a category in which for any pair
-  of objects $(X, Y)$, we have $\abs{(X \to Y) \cup (Y \to X)} \le 1$.
+  Alternatively, a poset can be thought of as a category in which for any
+  distinct pair of objects $(X, Y)$, we have
+  $\abs{\homset(X, Y) \uplus \homset(Y, X)} \le 1$.
 }
 @@ {%
-  Every preorder $P$ gives rise to a poset $P / (\equiv)$, where
-  $a \equiv b \iff (a \poset b) \land (b \poset a)$.
+  Every preorder $(P, \poset)$ gives rise to a poset $(P / {\equiv}, \poset)$,
+  where $a \equiv b \iff (a \poset b) \land (b \poset a)$.
 }
 @@ {%
   In a given poset $P$, with $X \subseteq P$ and $a \in P$, $a$ is a
   \define{lower bound} (resp. \define{upper bound}) for $X$ iff for any
-  $x \in X$, $a \poset x$ (resp. $a \tesop x$).
+  $x \in X$, $a \poset x$ (resp. $x \poset a$).
 }
 @@ {%
   A lower bound $a$ of $X$ is a \define{meet} if it is greater than or equal to
@@ -839,8 +900,8 @@
   a meet and a join.
 }
 @ {%
-  A \define{meet-semilattice} (resp. \define{join-semilattice}) is a poset in
-  which every finite subset has a meet (resp. join).
+  A \define{meet-/join-semilattice} is a poset in which every finite subset
+  has a meet/join.
 }
 @ {%
   A \define{lattice} is a poset that is both a meet-semilattice and a
@@ -856,19 +917,25 @@
   If $P$ also has empty meets and joins, it is a lattice.
 }
 @ {%
-  As a result, we will heretofore denote all finite meets and joins by infix
-  binary operators $(\meet)$ and $(\join)$.
+  Thus, we will heretofore denote all finite meets and joins by binary operators
+  $(\meet)$ and $(\join)$.
 }
 @ {%
-  Infinite meets and joins will look like, e.g.: $\bigmeet_i(p_i)$ for a
-  sequence $p : \mbb{N} \to P$ or $\bigmeet(X)$ for some $X \subseteq P$.
+  Infinite meets and joins will look like ${\meet}(X)$ and ${\join}(X)$
+  for some $X \subseteq P$.
 }
 @ {%
   For lattices $L_1$ and $L_2$, a function $f : L_1 \to L_2$ is a
-  \define{lattice homomorphism} iff $f(a \meet_1 b) = f(a) \meet_2 f(b)$
-  and $f(a \join_1 b) = f(a) \join_2 f(b)$ for all $(a, b) \in L_1^2$.
+  \define{lattice homomorphism} if and only if for every $(a, b)$ in $L_1^2$,
+  $f(a \meet_1 b) = f(a) \meet_2 f(b)$ and $f(a \join_1 b) = f(a) \join_2 f(b)$.
+
+  A lattice homomorphism is a monotone function that respects binary meets
+  and binary joins.
+
+  The category of lattices, $\cat{Lat}$, has lattice homomorphisms
+  as its morphisms.
 }
-@ Note that the set of all pseudolattices is closed under $(\opcat{-})$.
+@ Note that the set of all pseudolattices is closed under $(\opcat{\circ})$.
 @ {%
   A poset $P$ is a \define{frame} iff every subset has join, every finite subset
   has a meet, and binary meets distribute over joins.
@@ -879,7 +946,7 @@
   $\mbb{P}(X)$.
 }
 @@ {%
-  $\mbf{1} = (\{\star\}, \o)$, the \define{inconsistent frame}, so named
+  $\mbf{1} = (\{\star\}, \empty)$, the \define{inconsistent frame}, so named
   because it has $\bot = \top$.
 }
 @@ $\mbf{2} = (\{\bot,\top\}, \{(\bot, \top)\})$, the \define{Sierpinski frame}.
@@ -899,12 +966,12 @@
   is the \define{upper closure} of $S$.
 }
 @@ {%
-  The \define{lower closure} of $x$ and $S$, denoted by ${\downarrow}(-)$,
+  The \define{lower closure} of $x$ and $S$, denoted by ${\downarrow}(\circ)$,
   is just the upper closure in $\opcat{P}$.
 }
 @ Examples of topologies:
 @@ The \define{discrete topology} is $\Omega = \mbb{P}(X)$.
-@@ The \define{indiscrete topology} is $\Omega = \o$.
+@@ The \define{indiscrete topology} is $\Omega = \empty$.
 @@ {%
   The \define{Alexandrov topology} on a poset $P$ is defined as
   $\Omega = \{{\uparrow}(x) \mid x \in P\}$.
