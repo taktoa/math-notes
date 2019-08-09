@@ -242,6 +242,11 @@
   The set $\Omega \to \mbb{R}$ of all random variables on $\Omega$ is an
   $n$-dimensional vector space, where $n = \abs{\Omega}$.
 }
+@ {%
+  FIXME: If $Z_1 \sim \mcl{N}(\mu_1, \sigma_1^2)$
+  and $Z_2 \sim \mcl{N}(\mu_2, \sigma_2^2)$,
+  then $Z_1 + Z_2 \sim \mcl{N}(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$
+}
 \end{easylist}
 
 % ------------------------------------------------------------------------------
@@ -496,6 +501,8 @@
 
 \section{Differential Geometry}
 
+\subsection{Point-Set Topology}
+
 \begin{easylist}[itemize]
 @ {%
   A \define{topological space} is a pair $(S, \Omega_S \subseteq \mbb{P}(S))$
@@ -610,6 +617,11 @@
   collection of open balls in $S$:
   $\{B(c, r) \subset S \mid c \in S \land 0 < r < \infty\}$.
 }
+\end{easylist}
+
+\subsection{Manifolds and Bundles}
+
+\begin{easylist}[itemize]
 @ {%
   A topological space $(S, \Omega)$ is a
   \define{topological manifold of dimension $n$}
@@ -685,7 +697,7 @@
 }
 @ {%
   If $S$ is a set and $G$ is a group, then a \define{$G$-action} is any
-  function $a : G \times S \to S$ such that $a(0_G, x) = 0_G$ and
+  function $a : G \times S \to S$ such that $a(0_G, x) = x$ and
   $a(p +_G q, x) = a(p, a(q, x))$ for all $(p, q) \in G^2$ and all $x \in S$.
 
   If $G \in \cat{Grp}$, then $\mbf{B}(G)$ is the groupoid with one object
@@ -705,6 +717,11 @@
   there exists a $g : \star \to \star$ such that $y = \rho(g) \comp x$.
 }
 @ \fixme{Talk about vector bundles and tangent bundles here}
+\end{easylist}
+
+\subsection{Lie Theory}
+
+\begin{easylist}[itemize]
 @ {%
   A \define{Lie group} is a group object internal to $\cat{Diff}$.
 }
@@ -729,6 +746,17 @@
   $[x, [y, z]] + [z, [x, y]] + [y, [z, x]] = 0$
 }
 @ \fixme{More Lie theory goes here}
+\end{easylist}
+
+\subsection{Tensor/Exterior/Clifford Algebra}
+
+\begin{easylist}[itemize]
+@ \sfixme
+\end{easylist}
+
+\subsection{Riemannian Geometry}
+
+\begin{easylist}[itemize]
 @ {%
   \fixme{Define the dual of a vector space}
 }
@@ -789,32 +817,6 @@
   The \define{fundamental theorem of Riemannian geometry} states that for any
   pseudo-Riemannian manifold $M$, there exists a unique Levi-Civita connection.
 }
-@ \fixme{geodesics}
-@ \fixme{Christoffel symbols}
-@ \fixme{Tensor algebra}
-@ \fixme{Exterior algebra / calculus}
-@ \fixme{de Rham cohomology}
-@ \fixme{Clifford algebra}
-@ \fixme{Yang-Mills theory}
-@ \fixme{Lorentz group / Minkowski spacetime}
-@ \fixme{Banach spaces and Banach algebras}
-@ \fixme{$C^\star$-algebras}
-@ \fixme{Hilbert spaces}
-@ \fixme{Sheaves on a topological space}
-@ \fixme{synthetic differential geometry}
-@ \fixme{Cartan / Klein geometry}
-@ \fixme{supergeometry}
-@ \fixme{variational calculus}
-@ \fixme{Einstein-Hilbert action}
-@ \fixme{electromagnetism}
-@ \fixme{Dirac equation}
-@ \fixme{electroweak interaction}
-@ \fixme{strong interaction}
-@ \fixme{Higgs mechanism}
-@ \fixme{Yukawa interaction}
-@ \fixme{Standard Model Lagrangian}
-@ \fixme{supersymmetry}
-@ \fixme{representation theory}
 % @ {%
 %   An \define{affine connection} on a smooth manifold $M$ is a map
 %   $\nabla : {C^\infty(M, \mrm{T}M)}^2 \to C^\infty(M, \mrm{T}M)$
@@ -841,6 +843,33 @@
 %   $\nabla(X, f Y) = \mrm{d}f(X) Y + f \nabla(X, Y)$.
 % }
 \end{easylist}
+
+\fixme{geodesics}
+\\ \fixme{Christoffel symbols}
+\\ \fixme{Tensor algebra}
+\\ \fixme{Exterior algebra / calculus}
+\\ \fixme{de Rham cohomology}
+\\ \fixme{Clifford algebra}
+\\ \fixme{Yang-Mills theory}
+\\ \fixme{Lorentz group / Minkowski spacetime}
+\\ \fixme{Banach spaces and Banach algebras}
+\\ \fixme{$C^\star$-algebras}
+\\ \fixme{Hilbert spaces}
+\\ \fixme{Sheaves on a topological space}
+\\ \fixme{synthetic differential geometry}
+\\ \fixme{Cartan / Klein geometry}
+\\ \fixme{supergeometry}
+\\ \fixme{variational calculus}
+\\ \fixme{Einstein-Hilbert action}
+\\ \fixme{electromagnetism}
+\\ \fixme{Dirac equation}
+\\ \fixme{electroweak interaction}
+\\ \fixme{strong interaction}
+\\ \fixme{Higgs mechanism}
+\\ \fixme{Yukawa interaction}
+\\ \fixme{Standard Model Lagrangian}
+\\ \fixme{supersymmetry}
+\\ \fixme{representation theory}
 
 % ------------------------------------------------------------------------------
 % ------------------------------------------------------------------------------
