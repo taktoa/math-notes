@@ -1020,7 +1020,6 @@
   such that $A \otimes B = P \cdot (B \otimes A) \cdot Q$. If $A$ and $B$ are
   square, then $P = Q^{-1} = Q^\top$ and $A \otimes B$ is thus permutation
   similar to $B \otimes A$.
-  I'm not sure, but I think that this means that
 }
 @@ {%
   The matrix product ($\cdot$) and Kronecker product ($\otimes$) obey the
@@ -1033,6 +1032,50 @@
   category with the Kronecker product as its tensor product, then
   $\msf{Mat}_\mbs{s}$ is a symmetric monoidal closed category.
 }
+@@ {%
+  Similarly, the Hadamard product and the Kronecker product also have a mixed
+  product property:
+  \begin{equation*}
+  (A \otimes B) \circ (C \otimes D) = (A \circ C) \otimes (B \circ D)
+  \end{equation*}
+}
+@@ {%
+  If $A$ and $B$ are invertible, then $(A \otimes B)^{-1} = A^{-1} \otimes B^{-1}$.
+
+  Similarly, this holds for the pseudoinverse:
+  $(A \otimes B)^{+} = A^{+} \otimes B^{+}$.
+}
+@@ {%
+  Transposition and conjugate transposition both distribute over the Kronecker
+  product: ${(A \otimes B)}^{\top} = A^\top \otimes B^\top$ and
+  ${(A \otimes B)}^{\star} = A^\star \otimes B^\star$ for all $A$ and $B$.
+}
+@@ {%
+  If $A \in m \multimap m$ and $B \in n \multimap n$ and $\sigma(-)$ gives the
+  set of eigenvalues (spectrum) of a matrix, then
+  $\sigma(A \otimes B) = \{xy \mid x \in \sigma(A) \land y \in \sigma(B)\}$.
+}
+@@ {%
+  $\trace(X)$
+}
+@ {%
+  The \define{Kronecker sum} is defined for $A \in m \multimap m$ and
+  $B \in n \multimap n$ by $A \oplus B = A \otimes I_n + I_m \otimes B$,
+  where $I_k$ is the $k \times k$ identity matrix.
+}
+@@ {%
+  The matrix exponential transforms a Kronecker sum into a Kronecker product:
+
+  \begin{equation*}
+  \exp(A \oplus B) = \exp(A) \otimes \exp(B)
+  \end{equation*}
+}
+\end{easylist}
+
+\subsection{Convolution}
+
+\begin{easylist}[itemize]
+@
 \end{easylist}
 
 % ------------------------------------------------------------------------------
