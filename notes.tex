@@ -114,9 +114,9 @@
 
 \renewcommand{\complement}[1]{{{#1}^{c}}}
 
-\newcommand{\degree}[3]{\ensuremath{\msf{deg}_{#2}^{#1}(#3)}}
-\newcommand{\indegree}[3]{\ensuremath{\msf{ideg}_{#2}^{#1}(#3)}}
-\newcommand{\outdegree}[3]{\ensuremath{\msf{odeg}_{#2}^{#1}(#3)}}
+\newcommand{\degree}[3]{\ensuremath{\mrm{deg}_{#2}^{#1}(#3)}}
+\newcommand{\indegree}[3]{\ensuremath{\mrm{ideg}_{#2}^{#1}(#3)}}
+\newcommand{\outdegree}[3]{\ensuremath{\mrm{odeg}_{#2}^{#1}(#3)}}
 
 \usepackage{url}
 
@@ -262,9 +262,9 @@
 \begin{easylist}[itemize]
 @ {%
   In the following definitions,
-  $(R, [0_R, 1_R], [\msf{neg}_R], [{+}_R, {\times}_R])$
+  $(R, [0_R, 1_R], [\mrm{neg}_R], [{+}_R, {\times}_R])$
   will be an arbitrary rig (semiring). The rig of $m \times n$ $R$-valued
-  matrices will be denoted by $\msf{Mat}_{m \times n}(R)$ or alternatively
+  matrices will be denoted by $\mrm{Mat}_{m \times n}(R)$ or alternatively
   $n \multimap_R m$. Since ${+}_R$ is commutative, we can denote the arbitrary
   sum of a set $S \subseteq R$ by $\sum_R S$. In some cases, we may assume
   that $R$ is a commutative rig, in which case we are allowed to take the
@@ -396,16 +396,16 @@
 }
 @ {%
   The \define{indegree matrix} of an order-$n$ graph $G$ is given by
-  $\msf{D}^\msf{in}(G) = \diag(\indegree{}{G}{1}, \dotsc, \indegree{}{G}{n})$.
+  $\msf{D}^\mrm{in}(G) = \diag(\indegree{}{G}{1}, \dotsc, \indegree{}{G}{n})$.
 
   The \define{outdegree matrix} of an order-$n$ graph $G$ is given by
-  $\msf{D}^\msf{out}(G) = \diag(\outdegree{}{G}{1}, \dotsc, \outdegree{}{G}{n})$.
+  $\msf{D}^\mrm{out}(G) = \diag(\outdegree{}{G}{1}, \dotsc, \outdegree{}{G}{n})$.
 
   The \define{degree matrix} of an undirected graph $G = (([1, n], E), \delta)$
   is the same as its indegree matrix and its outdegree matrix:
   $ \msf{D}(G)
-  = \msf{D}^\msf{in}(G)
-  = \msf{D}^\msf{out}(G)
+  = \msf{D}^\mrm{in}(G)
+  = \msf{D}^\mrm{out}(G)
   = \diag(\degree{}{G}{1}, \dotsc, \degree{}{G}{n})$.
 }
 @ {%
@@ -413,8 +413,8 @@
   is $\mathrm{\Delta}(G) = \msf{D}(G) - \msf{Adj}(G)$.
 
   On a directed graph $G = (V, E)$, the \define{indegree Laplacian matrix}
-  is $\mathrm{\Delta}^\msf{in}(G) = \msf{D}^\msf{in}(G) - \msf{Adj}(G)$.
-  The \define{outdegree Laplacian matrix} $\mathrm{\Delta}^\msf{out}(G)$
+  is $\mathrm{\Delta}^\mrm{in}(G) = \msf{D}^\mrm{in}(G) - \msf{Adj}(G)$.
+  The \define{outdegree Laplacian matrix} $\mathrm{\Delta}^\mrm{out}(G)$
   is defined the same way.
 }
 @@ {%
@@ -439,7 +439,6 @@
 }
 @@ {%
   The Laplacian matrix is like a discrete version of the Laplace operator.
-  \sfixme{}
 }
 @ {%
   If $M$ is $n \times n$ $\mbb{C}$-valued matrix, then the \define{spectrum} of
@@ -454,7 +453,7 @@
   The function mapping the spectrum of $M$ to the corresponding eigenvalue
   multiplicities is denoted by $\kappa_M : \msf{Spec}(G) \to \mbb{N}$.
 
-  Define $\msf{sort}(S \subseteq \mbb{C}) : [1, \card(S)] \to \mbb{C}$
+  Define $\mrm{sort}(S \subseteq \mbb{C}) : [1, \card(S)] \to \mbb{C}$
   to be the function that sorts a set of complex numbers in increasing order
   of absolute value (i.e.: under the order induced by the total ordering of the
   reals when mapping with $(z \mapsto z \bar{z}) \in \mbb{C} \to \mbb{R}$).
@@ -469,7 +468,7 @@
   If $A$ and $B$ have the same spectrum, we say that $A$ is \define{isospectral}
   to $B$; this is true whether $A$ and $B$ are graphs or matrices.
 
-  % If $(C, [0_C, 1_C], [\msf{neg}_C, \msf{inv}_C], [{+}_C, {\times}_C])$
+  % If $(C, [0_C, 1_C], [\mrm{neg}_C, \mrm{inv}_C], [{+}_C, {\times}_C])$
   % is an algebraically closed field and $G$ is a $C$-weighted graph,
   % then the \define{spectrum} of $G$ is the set of eigenvalues of $\msf{Adj}(G)$.
   % The spectrum of $G$ is denoted by
@@ -945,7 +944,7 @@
 \subsection{Matrix Product}
 
 \begin{easylist}[itemize]
-@ \sfixme
+@ \sfixme{}
 \end{easylist}
 
 \subsection{Kronecker Product}
@@ -958,14 +957,14 @@
     A \otimes B
     & \in m p \multimap n q \\
     A \otimes B
-    & = \mathsf{flatten}{\left(\begin{bmatrix}
+    & = \mathrm{flatten}{\left(\begin{bmatrix}
     A_{11} B & \cdots & A_{1n} B \\
     \vdots   & \ddots & \vdots   \\
     A_{m1} B & \cdots & A_{mn} B \\
     \end{bmatrix}\right)}
   \end{align*}
   where
-  $ \mathsf{flatten}
+  $ \mathrm{flatten}
   \in \mbs{M}_{a \times b}(\mbs{M}_{x \times y}(\mbs{s}))
   \to \mbs{M}_{a x \times b y}(\mbs{s})$
   is the function that ``flattens'' a block matrix into a matrix of scalars,
@@ -1054,9 +1053,6 @@
   If $A \in m \multimap m$ and $B \in n \multimap n$ and $\sigma(-)$ gives the
   set of eigenvalues (spectrum) of a matrix, then
   $\sigma(A \otimes B) = \{xy \mid x \in \sigma(A) \land y \in \sigma(B)\}$.
-}
-@@ {%
-  $\trace(X)$
 }
 @ {%
   The \define{Kronecker sum} is defined for $A \in m \multimap m$ and
@@ -1372,6 +1368,87 @@
 @ {%
   The \define{topological closure} of a subset $S \subseteq X$ is
   $\closure(S) = \complement{(\interior(\complement{S}))}$
+}
+\end{easylist}
+
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+
+\section{Computer Science}
+
+\begin{easylist}[itemize]
+@ Graph coloring
+@@ {%
+  A \define{coloring} of a graph $G = (V, E)$ is a map $\phi : V \to \mbb{N}$
+  such that for any $(s, t) \in E$, $\phi(s) \neq \phi(t)$. In other words, it
+  is an assignment of numbers (``colors'') to vertices in a graph such that no
+  two neighboring vertices are assigned the same number.
+
+  The set of all colorings of $G$ is denoted $\msf{Coloring}(G)$.
+
+  The \define{order} of a coloring $\phi$ is the maximum element of $\mbb{N}$
+  assigned to any vertex of the graph;
+  i.e.: $\mrm{order}(\phi) = \max(\msf{Im}(\phi))$.
+
+  The \define{chromatic number} $\chi(G)$ of a graph $G$ is defined to be the
+  order of the smallest coloring of $G$;
+  i.e.: $\chi(G) = \min\{\mrm{order}(\phi) \mid \phi \in \mrm{Coloring}(G)\}$.
+
+  A coloring $\phi$ of a graph $G$ is said to be \define{optimal} if the order
+  of $\phi$ is equal to the chromatic number of $G$.
+}
+@@ {%
+  For any graph $G = (V, E)$, an ordering
+  $\sigma : \msf{Fin}(\abs{V}) \leftrightarrow V$
+  induces a coloring $\gamma_\sigma : V \to \mbb{N}$ of $G$ called the
+  \define{greedy coloring}, which is defined by
+  \begin{equation*}
+  \gamma_\sigma(v) = \min (\mbb{N} - \{ \gamma_\sigma(\sigma(k)) \mid k \in \msf{Fin}(\sigma^{-1}(v)) \wedge (\sigma(k), v) \in E \})
+  \end{equation*}
+  This coloring iterates through the vertices via the ordering $\sigma$,
+  assigning each vertex the smallest color that is not used by any of its
+  neighbors.
+}
+@@ {%
+  A \define{perfect elimination ordering} of a graph is an ordering of the
+  vertices of a graph such that for each vertex $v$ in the ordering, $v$ and all
+  of its neighbors that occur after it in the ordering form a clique.
+}
+@@ {%
+  Theorem: greedily coloring a graph using a perfect elimination ordering always
+  gives an optimal coloring of that graph.
+}
+@@ {%
+  A \define{chordal graph} is a graph where every induced cycle has exactly
+  three vertices; i.e.: every cycle of length 4 or more has a \define{chord}: an
+  edge that is not part of the cycle but connects two vertices in the cycle.
+}
+@@ {%
+  Theorem: a perfect elimination ordering of a chordal graph can be computed in
+  polynomial time using the \define{lexicographic BFS} algorithm.
+}
+@@ Corollary: chordal graphs can be optimally colored in polynomial time.
+@@ {%
+  An \define{interval graph} is a graph $G = (V, E)$ for which there exists an
+  assignment $\iota : V \to \mbb{R} \times \mbb{R}$ called an
+  \define{interval model} such that
+  $(s, t) \in E$ iff $I(\iota(s)) \cap I(\iota(t)) \neq \o$
+  where $I : \mbb{R} \times \mbb{R} \to \mbb{P}(\mbb{R})$
+  is the mapping from the data of an interval to the actual subset
+  of $\mbb{R}$ that that interval represents.
+}
+@@ Theorem: every interval graph is a chordal graph.
+@@ {%
+  Theorem: if you have an interval model of an interval graph, then sorting the
+  intervals by their left endpoint gives a perfect elimination ordering of the
+  interval graph.
+}
+@ Shortest Common Superstring
+@@ {%
+  The \define{shortest common superstring} of a set $S \subset \Sigma^{\star}$
+  of strings, denoted $\mrm{scs}(S)$, is defined to be the shortest string
+  that contains every element of $S$ as a substring.
 }
 \end{easylist}
 
