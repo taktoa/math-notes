@@ -11,7 +11,10 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
+\definecolor{BrickRed}{HTML}{B6321C}
 \definecolor{LinkColor}{HTML}{006090}
+
+\def\str#1{\textbf{\texttt{\color{BrickRed}#1}}}
 
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \IfFileExists{microtype.sty}{\usepackage[]{microtype}%
@@ -167,7 +170,7 @@
   this document:
 }
 @@ {%
-  Usually, $f({-})$ is used to denote $x \mapsto f(x)$, where $x$ is fresh
+  Usually, $f({-})$ is used to denote $x \mapsto f(x)$, where $x$ is a fresh
   variable. \\ This document instead uses $f(\circ)$, since it can be less
   confusing in some cases.
 }
@@ -184,6 +187,89 @@
 \section{Computer Science}
 
 \begin{easylist}[itemize]
+% Discrimination tries
+% Rank-select bitstrings / wavelet trees
+% Discrete linear canonical transformation in O(n log n)
+% Unification
+% Simulated annealing
+% Approximate nearest neighbor data structures
+% Max clique in various graph classes
+% Tarjan's SCC algorithm
+% Derivative parsing for regular and context-free grammars
+% Ukkonen's algorithm for constructing suffix trees
+% Automatic differentiation
+% Graham scan for finding convex hulls
+% PageRank
+% In-crowd algorithm for BPDN
+% DPLL algorithm
+% Lattice Boltzmann method
+% Deconvolution
+% Submodular function optimization
+% Goemans-Williamson max-cut via SDP, relationship between max-cut and Ising models
+% Spectral min-cut
+% The simplex method
+% Buchberger's algorithm for finding Grobner bases
+% The heat method
+% Crank-Nicolson method & solving the heat equation
+% Thomas algorithm & solving Poisson's equation
+@ Shortest Common Superstring
+@@ {%
+  The \define{shortest common superstring} of a set $S \subset \Sigma^{\star}$
+  of strings, denoted $\mrm{scs}(S)$, is defined to be the shortest string
+  that contains every element of $S$ as a substring.
+
+  For example, if S is
+  $\{\str{alf}, \str{ate}, \str{half}, \str{lethal}, \str{alpha}, \str{alfalfa}\}$,
+  then a shortest common superstring is $\str{lethalphalfalfate}$.
+}
+@@ {%
+  If $G = (V, E)$ is an undirected graph and $(s, t) \in E$ is an edge, the
+  \define{edge contraction} of $G$ with respect to $(s, t)$ and a semigroup
+  $\diamond : V^2 \to V$ is defined to be the graph whose vertices are
+  \begin{equation*}
+  V' = (V - \{s, t\}) \cup (s \diamond t)
+  \end{equation*}
+  and whose edges are
+  \begin{equation*}
+  E' = \{(x, y) \in E \mid x \neq s \wedge y \neq t\} \cup \{(x, s \diamond t) \mid (x, y) \in (E \cap V'^2) \wedge y \in \{s, t\}\}
+  \end{equation*}
+  In other words, the result of applying edge contraction to a graph $G$ is that
+  the two vertices of the edge are combined using a semigroup, and any edges
+  going into either vertex of the edge now point at the combined vertex.
+
+  This operation is denoted by
+  $\mrm{contract}_{\diamond}(G, (s, t)) = (V', E')$.
+}
+@@ {%
+  If $s, t \in \Sigma^{\star}$, then the \define{overlap} of $s$ and $t$ is the
+  length of the longest $y \in \Sigma^{\star}$ such that there exist
+  $x, z \in \Sigma^{\star}$ such that $(s, t) = (x \cdot y, y \cdot z)$ or
+  $(s, t) = (y \cdot x, z \cdot y)$. The value $x \cdot y \cdot z$ is known as
+  the \define{merger} of $s$ and $t$. The overlap of two strings is denoted by
+  $\mrm{overlap} : \Sigma^{\star} \times \Sigma^{\star} \to \mbb{N}$, while
+  their merger is denoted by
+  $\mrm{merger} : \Sigma^{\star} \times \Sigma^{\star} \to \Sigma^{\star}$.
+}
+@@ {%
+  If $S \subset \Sigma^{\star}$ is a set of strings, it gives rise to a weighted
+  graph known as the \define{overlap graph} of $S$, which is defined by
+  $ \msf{Overlap}(S)
+  = (S, \{(s, t) \in S^2 \mid \mrm{overlap}(s, t) > 0\}, \mrm{overlap})$.
+}
+@@ {%
+  The \textsf{GREEDY} approximation algorithm for shortest common superstring
+  involves finding the edge in the overlap graph of the input set $S$ that has
+  the largest weight, contracting that edge, and repeating until the graph only
+  has one vertex.
+
+  This has been proven to be a 4-approximation algorithm. It is conjectured to
+  be a 2-approximation algorithm.
+
+  A conjectured worst case input for this algorithm is
+  $\{\str{c} \cdot {(\str{ab})}^k, {(\str{ba})}^k, {(\str{ab})}^k \cdot \str{c}\}$;
+  the shortest common superstring of which is
+  $\str{c} {(\str{ab})}^{k + 1} \str{c}$.
+}
 @ Graph coloring
 @@ {%
   A \define{coloring} of a graph $G = (V, E)$ is a map $\phi : V \to \mbb{N}$
@@ -222,8 +308,8 @@
   of its neighbors that occur after it in the ordering form a clique.
 }
 @@ {%
-  Theorem: greedily coloring a graph using the reverse of a perfect elimination
-  ordering always gives an optimal coloring of that graph.
+  \textbf{Theorem}: greedily coloring a graph using the reverse of a perfect
+  elimination ordering always gives an optimal coloring of that graph.
 }
 @@ {%
   A \define{chordal graph} is a graph where every induced cycle has exactly
@@ -231,8 +317,8 @@
   edge that is not part of the cycle but connects two vertices in the cycle.
 }
 @@ {%
-  Theorem: a perfect elimination ordering of a chordal graph can be computed in
-  polynomial time using the \define{lexicographic BFS} algorithm.
+  \textbf{Theorem}: a perfect elimination ordering of a chordal graph can be
+  computed in polynomial time using the \define{lexicographic BFS} algorithm.
 }
 @@ Corollary: chordal graphs can be optimally colored in polynomial time.
 @@ {%
@@ -244,11 +330,11 @@
   is the mapping from the data of an interval to the actual subset
   of $\mbb{R}$ that that interval represents.
 }
-@@ Theorem: every interval graph is a chordal graph.
+@@ \textbf{Theorem}: every interval graph is a chordal graph.
 @@ {%
-  Theorem: if you have an interval model of an interval graph, then sorting the
-  intervals by their left endpoint gives a perfect elimination ordering of the
-  interval graph.
+  \textbf{Theorem}: if you have an interval model of an interval graph, then
+  sorting the intervals by their left endpoint gives a perfect elimination
+  ordering of the interval graph.
 }
 @@ {%
   A \define{unit disk graph} is a graph that is generated by a set of points in
@@ -256,16 +342,10 @@
   are within some distance of each other.
 }
 @@ {%
-  Theorem: there is an algorithm that, given a unit disk graph $G$, generates a
-  coloring $\phi$ of $G$ such that $\mrm{order}(\phi) \le 3 \chi(G)$, i.e.: it is
-  a 3-approximation algorithm for coloring unit disk graphs.
+  \textbf{Theorem}: there is an algorithm that, given a unit disk graph $G$,
+  computes a coloring $\phi$ of $G$ such that $\mrm{order}(\phi) \le 3 \chi(G)$,
+  i.e.: it is a 3-approximation algorithm for coloring unit disk graphs.
 }
-%@ Shortest Common Superstring
-%@@ {%
-%  The \define{shortest common superstring} of a set $S \subset \Sigma^{\star}$
-%  of strings, denoted $\mrm{scs}(S)$, is defined to be the shortest string
-%  that contains every element of $S$ as a substring.
-%}
 \end{easylist}
 
 % ------------------------------------------------------------------------------
