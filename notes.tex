@@ -139,7 +139,8 @@
 
 \DeclareMathOperator{\diag}{diag}
 
-\DeclareMathOperator{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
 
 \newcommand{\define}[1]{\textbs{#1}}
 
@@ -187,11 +188,13 @@
 \section{Computer Science}
 
 \begin{easylist}[itemize]
-% Discrimination tries
+% ARC cache
+% Discrimination trees
 % Rank-select bitstrings / wavelet trees
 % Discrete linear canonical transformation in O(n log n)
 % Unification
 % Simulated annealing
+% Arnoldi iteration, vibrational analysis with generalized eigenvalue solvers
 % Approximate nearest neighbor data structures
 % Max clique in various graph classes
 % Tarjan's SCC algorithm
@@ -212,6 +215,28 @@
 % The heat method
 % Crank-Nicolson method & solving the heat equation
 % Thomas algorithm & solving Poisson's equation
+
+% @ Thomas algorithm (and applications to Poisson's equation)
+% @@ {%
+%   A \define{tridiagonal matrix} is a matrix that consists of all zeros except
+%   for the diagonal and the two off-diagonals; they correspond to systems of
+%   equations that can be written as
+%   \begin{equation*}
+%   a_i x_{i - 1} + b_i x_i + c_i x_{i + 1} = d_i
+%   \end{equation*}
+% }
+% @@ {%
+%   Tridiagonal matrix equations can be solved in $O(n)$ time, compared to the
+%   usual $O(n^3)$ for Gaussian elimination.
+% }
+% @@ {%
+%   A \define{block tridiagonal matrix} is a block matrix that is tridiagonal;
+%   i.e.: a system of equations of the form:
+%   \begin{equation*}
+%   A_i \vec{x}_{i - 1} + B_i \vec{x}_i + C_i \vec{x}_{i + 1} = \vec{d}_i
+%   \end{equation*}
+% }
+
 @ Shortest Common Superstring
 @@ {%
   The \define{shortest common superstring} of a set $S \subset \Sigma^{\star}$
@@ -255,20 +280,42 @@
   graph known as the \define{overlap graph} of $S$, which is defined by
   $ \msf{Overlap}(S)
   = (S, \{(s, t) \in S^2 \mid \mrm{overlap}(s, t) > 0\}, \mrm{overlap})$.
+
+  There is also a closely related class of graphs, called the class of
+  \define{overlap graphs}, which are graphs that can be realized as intersection
+  graphs of a set of intervals such that no two intervals are related by an
+  inclusion. The overlap graph of a set of strings is in this class; the SCS of
+  the set of strings is essentially an interval model.
 }
 @@ {%
-  The \textsf{GREEDY} approximation algorithm for shortest common superstring
-  involves finding the edge in the overlap graph of the input set $S$ that has
+  If $S \subset \Sigma^{\star}$ is a set of strings, then $S^{\mrm{R}}$ is the
+  \define{reduced form} of $S$, which is defined as the smallest set that has the
+  same SCS as $S$ such that no two elements of $S^{\mrm{R}}$ are substrings of one
+  another.
+}
+@@ {%
+  The \textsf{GREEDY} approximation algorithm for shortest common superstring of
+  a set $S$ involves finding the edge in $\msf{Overlap}(S^{\mrm{R}})$ that has
   the largest weight, contracting that edge, and repeating until the graph only
   has one vertex.
 
+  In other words, if $f$ is defined by
+  \begin{align*}
+  f((\{v\}, \o, w)) & = v \\
+  f((V, E, w))     & = f(\mrm{contract}_{\mrm{merger}}((V, E, w), \argmax_{e \in E} w(e)))
+  \end{align*}
+  then $\msf{GREEDY}(S) = f(\msf{Overlap}(S^{\mrm{R}}))$.
+
   This has been proven to be a 4-approximation algorithm. It is conjectured to
-  be a 2-approximation algorithm.
+  be a 2-approximation algorithm. This approximation results from a reduction
+  to the longest Hamiltonian path problem on overlap graphs.
 
   A conjectured worst case input for this algorithm is
-  $\{\str{c} \cdot {(\str{ab})}^k, {(\str{ba})}^k, {(\str{ab})}^k \cdot \str{c}\}$;
+  $\{\str{c} {(\str{ab})}^k, {(\str{ba})}^k, {(\str{ab})}^k \str{c}\}$;
   the shortest common superstring of which is
-  $\str{c} {(\str{ab})}^{k + 1} \str{c}$.
+  $\str{c} {(\str{ab})}^{k + 1} \str{c}$;
+  \textsf{GREEDY} will output
+  $\str{c} {(\str{ab})}^k \str{c} {(\str{ba})}^k$.
 }
 @ Graph coloring
 @@ {%
