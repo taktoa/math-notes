@@ -49,8 +49,10 @@
 
 \usepackage{mathtools}
 \usepackage{amsmath}
+\usepackage{nicefrac}
 
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
 
 \definecolor{AnswerColor}{HTML}{664411}
 
@@ -86,7 +88,7 @@
 \newcommand{\msr}[1]{\ensuremath{\mathscr{#1}}}    % Script
 \newcommand{\mfr}[1]{\ensuremath{\mathfrak{#1}}}   % Fraktur
 
-\newcommand{\norm}[1]{\ensuremath{\lVert{} {#1} \rVert{}}}
+%\newcommand{\norm}[1]{\ensuremath{\lVert{} {#1} \rVert{}}}
 
 \newcommand{\rmand}{\ensuremath{\mathrel{\mathrm{and}}}}
 
@@ -109,6 +111,7 @@
 
 \newcommand{\opcat}[1]{\ensuremath{{#1}^{\mathsf{op}}}}
 
+\DeclareMathOperator{\tr}{tr}
 \DeclareMathOperator{\interior}{Int}
 \DeclareMathOperator{\closure}{Cl}
 \DeclareMathOperator{\card}{card}
@@ -208,13 +211,13 @@
 % Lattice Boltzmann method
 % Deconvolution
 % Submodular function optimization
-% Goemans-Williamson max-cut via SDP, relationship between max-cut and Ising models
 % Spectral min-cut
 % The simplex method
 % Buchberger's algorithm for finding Grobner bases
 % The heat method
 % Crank-Nicolson method & solving the heat equation
 % Thomas algorithm & solving Poisson's equation
+% Goemans-Williamson max-cut via SDP, relationship between max-cut and Ising models
 
 % @ Thomas algorithm (and applications to Poisson's equation)
 % @@ {%
@@ -237,6 +240,110 @@
 %   \end{equation*}
 % }
 
+@ Maximum cut
+@@ {%
+  A \define{cut} in a weighted graph $G = (V, E, w)$ is a pair of sets
+  $(V_x, V_y) \in \mathbb{P}(V)^2$ such that $V_x \cup V_y = V$, and
+  $V_x \cap V_y = \o$. In other words, it is a partition of the vertices of $G$
+  into two disjoint sets. The edges $(s, t) \in E$ that have
+  $s \in V_x$ and $t \in V_y$ or vice versa are said to \define{span} the cut.
+
+  In a graph whose edges are weighted by nonnegative real numbers, the
+  \define{weight} of a cut is the sum of the weight of all edges that span the
+  cut.
+
+  Cuts can also be considered on weighted graphs, in which case we treat all
+  edges as having weight $1$. This means that the weight of a cut of an
+  unweighted graph is the number of edges that span the cut.
+
+  A maximum cut is a cut whose weight is at least as large as any other cut.
+}
+@@ {%
+  The problem of finding a maximum cut in a graph is an NP-complete optimization
+  problem. This problem is sometimes denoted \textsf{MAX-CUT}. This problem is
+  also APX-hard, which means that no polynomial-time approximation scheme can
+  exist for it.
+}
+@@ {%
+  The simplest approximation algorithm for \textsf{MAX-CUT} is a randomized
+  algorithm which is a $0.5$-approximation. For each vertex, you
+  flip a coin and put that vertex in $V_x$ if it is heads, $V_y$ if it is tails.
+
+  Every edge consists of two vertices, so there are four cases: both vertices
+  are heads, both are tails, one is heads and one is tails, or one is tails and
+  one is heads. In half of those cases, the edge is part of the cut, so on
+  average the weight of the cut will be half of the total weight of all edges.
+  The total weight of all the edges is an upper bound on the weight of the
+  maximum cut, therefore this is a $0.5$-approximation algorithm.
+
+  This algorithm can be derandomized using the method of conditional
+  probabilities.
+}
+@@ {%
+  A symmetric real matrix $M \in \mbb{R}^{n \times n}$ is said to be
+  \define{positive semidefinite} iff $v^\top M v \ge 0$ for every
+  vector $v \in \mbb{R}^n$. Equivalently, a matrix is positive semidefinite iff
+  all of its eigenvalues are nonnegative. This is denoted by $M \succeq 0$.
+}
+@@ {%
+  \define{Semidefinite programming} is a convex optimization problem in which
+  we are trying to minimize $\tr(C^\top \mbs{X})$ subject to $\mbs{X} \succeq 0$
+  and $\tr(A_k^\top \mbs{X}) \le b_k$ for all $0 \le k < m$, where
+  $\mbs{X}$ is a Hermitian $n \times n$ matrix variable and
+  $A = [A_0, \ldots, A_{m - 1}]$ is a sequence of Hermitian $n \times n$
+  matrices, $b = [b_0, \ldots, b_{m - 1}]$ is a sequence of $n$-vectors,
+  and $C$ is a Hermitian $n \times n$ matrix.
+}
+@@ {%
+  Semidefinite programming can be solved via a variety of methods, including
+  interior point methods, conic optimization algorithms, the spectral bundle
+  method, and the augmented Lagrangian method. All of these algorithms return
+  a solution to the SDP problem that has a user-provided additive error
+  $\epsilon$, and they have a runtime that is polynomial in
+  $n^2 m + \log(\frac{1}{\epsilon})$.
+}
+@@ {%
+  \textsf{MAX-CUT} can be expressed as the following integer quadratic programming problem: \\
+  maximize $\frac{1}{2} \sum_{(i, j) \in E} w(i, j) (1 - \mbs{v}_i \mbs{v}_j)$
+  subject to $\mbs{v}_k^2 = 1$ for all $0 \le k < \abs{V}$.
+
+  If there is a bijection $f : V \to [0, \abs{V} - 1]$ then a vertex $v$ is in
+  $V_x$ iff $\mbs{v}_{f(v)} = -1$ and it is in $V_y$ iff $\mbs{v}_{f(v)} = 1$.
+}
+@@ {%
+  This integer quadratic programming problem can be relaxed to a semidefinite
+  programming problem by replacing the indicator variables ($\mbs{v}$) with
+  vector variables (of dimension $\abs{V}$) and then doing randomized rounding.
+  This is the Goemans-Williamson algorithm for \textsf{MAX-CUT}, and it achieves
+  an approximation ratio of $0.878$, which is the best known approximation ratio
+  of any approximation algorithm for \textsf{MAX-CUT}. Assuming the unique games
+  conjecture is true, this is the best possible approximation ratio for any
+  \textsf{MAX-CUT} approximation algorithm. No approximation algorithm for
+  \textsf{MAX-CUT} can have an approximation ratio over $0.941$.
+}
+@@ {%
+  The problem of partitioning a set of $n$-dimensional points into two clusters
+  can be reduced to \textsf{MAX-CUT} (though there are good greedy algorithms
+  for this).
+
+  The problem of finding an assignment of spins to particles in a spin glass
+  model that minimizes the Hamiltonian can be reduced to \textsf{MAX-CUT}.
+  This is probably why spin glasses exhibit metastability: \textsf{MAX-CUT} is
+  not a convex optimization problem.
+}
+%@@ {%
+%  The \define{Ising model} refers to a number of models of ferromagnetism in
+%  which typically there is a magnet (which can either be pointed up or down) for
+%  each element of $\mbb{Z}^2$. This can be conceptualized as a weighted graph
+%  \begin{align*}
+%    V & = I^2 \\
+%    E & = \{(a, b) \in (I^2)^2 \mid \norm{a - b} = 1\} \\
+%    w(i, j) & = 1 \\
+%    G & = (V, E, w)
+%  \end{align*}
+%  where $I$ is some contiguous finite subset of $\mbb{Z}$.
+%  %$f : \mbb{Z}^2 \to \{-1, 1\}$,
+%}
 @ Shortest Common Superstring
 @@ {%
   The \define{shortest common superstring} of a set $S \subset \Sigma^{\star}$
